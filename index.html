@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PageRank Simulator: See How Link Juice Flows (Interactive) | Optimization Theory</title>
+<meta name="description" content="Build links and watch PageRank flow live. Test PBNs, link farms and parasite pages, then run a SpamBrain-style sweep to see which schemes get caught.">
+<link rel="canonical" href="https://optimizationtheory.com/pagerank-simulator-see-how-link-juice-flows-interactive/">
+<style>html,body{margin:0;background:#0a1220;}body{padding:24px 16px;}main{max-width:1200px;margin:0 auto;}</style>
+</head>
+<body>
+<main>
+<!-- wp:html -->
+<div class="ots" id="ots-sim"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'"><style>.ots{--bg:#0a1220;--bg2:#0c1526;--panel:#0f1a2d;--panel2:#111d33;--panel3:#15233d;--line:#1e2c46;--line2:#24344f;--ink:#e8eef8;--ink2:#cfdaea;--muted:#8a9bb5;--dim:#64748b;--cyan:#7cc4ff;--score:#8fd3f4;--purple:#8b7cf6;--green:#4ade80;--red:#ff4d6d;--orange:#f6a465;--yellow:#fde047;--lime:#b8d65a;--mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;container-type:inline-size;container-name:ots;position:relative;max-width:1240px;margin:24px auto 32px;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;text-align:left;-webkit-font-smoothing:antialiased}.ots *,.ots *::before,.ots *::after{box-sizing:border-box}.ots p,.ots ol,.ots ul,.ots li,.ots h2,.ots h3,.ots h4,.ots figure,.ots details,.ots summary,.ots table{margin:0;padding:0;text-indent:0;border:0;background:none;letter-spacing:normal;text-transform:none}.ots p::first-letter{float:none!important;font-size:inherit!important;color:inherit!important;margin:0!important;padding:0!important;line-height:inherit!important;font-weight:inherit!important}.ots h2::before,.ots h2::after,.ots h3::before,.ots h3::after,.ots li::before,.ots li::after,.ots summary::before{content:none!important;display:none!important}.ots ul,.ots ol{list-style:none!important}.ots a{color:var(--cyan);text-decoration:none;box-shadow:none;border:0}.ots a:hover{color:#a9d8ff}.ots svg{display:block;flex:none}.ots b,.ots strong{font-weight:700;color:inherit}.ots button,.ots select,.ots input{font:inherit;color:inherit;margin:0;padding:0;border:0;background:none;border-radius:0;letter-spacing:normal;text-transform:none;text-shadow:none;box-shadow:none;min-height:0;min-width:0;max-width:none;width:auto;height:auto;line-height:1.2;border-radius:0;-webkit-appearance:none;appearance:none}.ots button{cursor:pointer}.ots label{margin:0;padding:0;font-weight:inherit;display:inline;color:inherit}.ots button:disabled{cursor:not-allowed;opacity:.45}.ots :focus{outline:none}.ots :focus-visible{outline:2px solid #7cc4ff!important;outline-offset:2px!important}.ots .ots-sr{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;margin:-1px!important;padding:0!important;border:0!important}.ots .ots-mono{font-family:var(--mono)}.ots .ots-hide{display:none!important}.ots .ots-shell{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:radial-gradient(900px 420px at 88% -8%,rgba(79,143,247,.22),transparent 60%),radial-gradient(700px 380px at -6% 8%,rgba(139,124,246,.14),transparent 60%),radial-gradient(rgba(148,163,184,.10) 1px,transparent 1.4px) 0 0/22px 22px,var(--bg);box-shadow:0 30px 80px rgba(2,8,23,.35),0 2px 6px rgba(2,8,23,.25)}.ots .ots-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;align-items:center;padding:40px 40px 30px}.ots p.ots-kicker{display:inline-flex;align-items:center;gap:10px;margin:0 0 16px;padding:6px 13px 6px 11px;border:1px solid rgba(74,222,128,.4);border-radius:999px;background:rgba(74,222,128,.08);color:#a7f3c0;font:500 11.5px/1.3 var(--mono);letter-spacing:.14em}.ots .ots-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(74,222,128,.8)}.ots h2.ots-h{margin:0 0 14px!important;padding:0!important;border:0!important;background:none!important;font:700 44px/1.06 var(--sans)!important;letter-spacing:-.025em!important;color:#fff!important;text-transform:none!important;text-align:left!important}.ots h2.ots-h span{background:linear-gradient(90deg,#fde047 0%,#f6a465 45%,#f472b6 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.ots p.ots-lede{max-width:620px;margin:0 0 18px;color:var(--ink2);font-size:17.5px;line-height:1.6}.ots .ots-learn{display:grid;gap:9px;margin:0 0 22px!important}.ots .ots-learn li{display:flex;align-items:flex-start;gap:11px;color:#dbe5f4;font-size:15.5px;line-height:1.45}.ots .ots-learn li i{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);background:var(--panel2);color:var(--cyan);font-style:normal}.ots .ots-learn li i svg{width:15px;height:15px}.ots .ots-ctas{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 16px}.ots a.ots-cta{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:12px;font:700 16px/1 var(--sans);text-decoration:none!important;transition:transform .15s,box-shadow .15s,background .15s}.ots a.ots-cta svg{width:18px;height:18px}.ots a.ots-cta-p{background:linear-gradient(180deg,#c6e36a,#a3c244);color:#0b1322!important;box-shadow:0 8px 24px rgba(163,194,68,.28),inset 0 1px 0 rgba(255,255,255,.4)}.ots a.ots-cta-p:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(163,194,68,.36),inset 0 1px 0 rgba(255,255,255,.4);color:#0b1322!important}.ots a.ots-cta-s{border:1px solid var(--line2);background:rgba(17,29,51,.7);color:#dbe5f4!important}.ots a.ots-cta-s:hover{border-color:#3a5076;background:var(--panel3)}.ots details.ots-howto{max-width:620px;border:1px solid var(--line);border-radius:12px;background:rgba(15,26,45,.6)}.ots details.ots-howto summary{display:flex;align-items:center;gap:10px;padding:11px 14px;color:#dbe5f4;font-size:14.5px;font-weight:500;cursor:pointer;list-style:none}.ots details summary::-webkit-details-marker{display:none}.ots .ots-chev{margin-left:auto;width:16px;height:16px;color:var(--muted);transition:transform .2s}.ots details.ots-open > summary .ots-chev{transform:rotate(180deg)}.ots details.ots-howto ol{display:grid;gap:8px;padding:0 14px 14px!important;counter-reset:s}.ots details.ots-howto li{position:relative;padding-left:32px;color:var(--ink2);font-size:14.5px;line-height:1.5;counter-increment:s}.ots details.ots-howto li b.ots-n{position:absolute;left:0;top:1px;display:grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--panel3);border:1px solid var(--line2);color:var(--cyan);font:700 12px/1 var(--mono)}.ots .ots-hero-art{position:relative;min-width:0}.ots .ots-hero-art svg{width:100%;height:auto;overflow:visible}.ots .ots-audit-go{flex:none}.ots .ots-art-chip{position:relative;width:max-content;margin:-6px 4% 0 auto;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid rgba(253,224,71,.4);border-radius:12px;background:rgba(10,18,32,.88);box-shadow:0 10px 30px rgba(0,0,0,.35);font-family:var(--mono)}.ots .ots-art-chip small{color:var(--muted);font-size:10.5px;letter-spacing:.12em}.ots .ots-art-chip b{color:var(--yellow);font-size:17px}.ots .ots-art-chip b em{font-style:normal;color:var(--green)}.ots .ots-app{position:relative;padding:0 18px 18px;scroll-margin-top:90px}.ots .ots-hero + .ots-app{border-top:1px solid var(--line);padding-top:16px}.ots .ots-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;margin:0 0 14px;border:1px solid var(--line);border-radius:14px;background:rgba(15,26,45,.85)}.ots .ots-logo{color:#7cc4ff}.ots .ots-logo svg{width:24px;height:24px}.ots .ots-name{font:500 19px/1.2 var(--mono);color:#f1f5fb;letter-spacing:.01em}.ots .ots-live{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid rgba(74,222,128,.45);border-radius:8px;background:rgba(74,222,128,.08);color:var(--green);font:500 12px/1 var(--mono);letter-spacing:.1em}.ots .ots-live::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}.ots .ots-live.ots-paused{border-color:rgba(148,163,184,.4);background:rgba(148,163,184,.08);color:#94a3b8}.ots .ots-bar-r{margin-left:auto;color:var(--muted);font-size:13.5px}.ots .ots-grid{display:grid;grid-template-columns:minmax(0,1fr) 336px;grid-template-areas:"stage side" "status status" "colA colB";gap:14px}.ots .ots-colA{grid-area:colA;display:flex;flex-direction:column;gap:14px;min-width:0}.ots .ots-colB{grid-area:colB;display:flex;flex-direction:column;gap:14px;min-width:0}.ots .ots-stage{grid-area:stage;align-self:start;min-width:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;background:rgba(10,18,32,.75);overflow:hidden}.ots .ots-side{grid-area:side;display:flex;flex-direction:column;gap:14px;min-width:0}.ots .ots-status{grid-area:status}.ots .ots-result{grid-area:result}.ots .ots-page{grid-area:page}.ots .ots-kb{grid-area:kb}.ots .ots-rank{grid-area:rank}.ots .ots-card{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px}.ots h3.ots-ch{display:flex;align-items:center;gap:10px;margin:0 0 13px!important;padding:0!important;border:0!important;background:none!important;color:var(--cyan)!important;font:700 13.5px/1.2 var(--mono)!important;letter-spacing:.12em!important;text-transform:uppercase!important}.ots h3.ots-ch svg{width:20px;height:20px;color:#2dd4bf}.ots h3.ots-ch .ots-ch-r{margin-left:auto;display:flex;gap:6px;text-transform:none;letter-spacing:0}.ots .ots-help{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;color:var(--muted);border:1px solid transparent}.ots .ots-help:hover{color:var(--ink);border-color:var(--line2)}.ots .ots-help svg{width:19px;height:19px;color:currentColor}.ots .ots-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 12px;border:1px solid var(--line2);border-radius:10px;background:var(--panel2);color:#dbe5f4;font:500 14px/1.15 var(--sans);text-align:center;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}.ots .ots-btn svg{width:18px;height:18px}.ots .ots-btn:hover:not(:disabled){border-color:#3a5076;background:var(--panel3);color:#fff}.ots .ots-btn.ots-on{border-color:var(--purple);background:rgba(139,124,246,.16);color:#efeaff;box-shadow:0 0 0 1px rgba(139,124,246,.35),0 0 18px rgba(139,124,246,.18)}.ots .ots-btn.ots-on svg{color:#c4b5fd}.ots .ots-btn-sm{min-height:34px;padding:0 10px;font-size:13px;border-radius:9px}.ots .ots-btn-sm svg{width:16px;height:16px}.ots .ots-btn-blue{border-color:rgba(79,143,247,.45);background:rgba(79,143,247,.12)}.ots .ots-btn-blue.ots-on{border-color:#4f8ff7;background:rgba(79,143,247,.22);box-shadow:none}.ots .ots-btn-go{border-color:rgba(184,214,90,.55);background:rgba(184,214,90,.12);color:#e6f5b8}.ots .ots-btn-go:hover:not(:disabled){border-color:#b8d65a;background:rgba(184,214,90,.2);color:#fff}.ots .ots-btn-ghost{background:transparent}.ots .ots-scen-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.ots .ots-scen-grid .ots-btn{flex-direction:column;gap:6px;min-height:64px;padding:8px 6px;font-size:12.5px;line-height:1.2}.ots .ots-scen-grid .ots-btn svg{width:19px;height:19px;color:#9fb3cf}.ots .ots-tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}.ots .ots-tool-grid .ots-btn,.ots .ots-tool-grid2 .ots-btn{padding:0 8px;gap:7px;white-space:nowrap}.ots .ots-tool-grid2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 0}.ots .ots-tool-note{margin:10px 0 0;min-height:1em;color:var(--muted);font-size:12.5px;line-height:1.45}.ots .ots-brief{display:flex;flex-direction:column;gap:12px}.ots .ots-brief-h{display:flex;gap:10px;align-items:flex-start}.ots .ots-brief-h svg{width:20px;height:20px;color:var(--cyan);margin-top:2px}.ots .ots-brief-h b{display:block;color:#fff;font-size:16px;line-height:1.3;margin:0 0 4px}.ots .ots-brief-h p{color:#a9b8cf;font-size:14px;line-height:1.55}.ots .ots-note{padding:10px 12px;border-radius:10px;border:1px solid rgba(124,196,255,.25);background:rgba(124,196,255,.06);color:#bcd8f5;font-size:13px;line-height:1.5}.ots .ots-note-warn{border-color:rgba(246,164,101,.35);background:rgba(246,164,101,.07);color:#f8d2b2}.ots .ots-acts{display:flex;flex-direction:column;gap:8px}.ots .ots-acts .ots-btn{justify-content:flex-start;width:100%}.ots .ots-chapters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:var(--muted);font-size:12.5px}.ots .ots-chapters a{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid rgba(246,164,101,.35);border-radius:8px;background:rgba(246,164,101,.06);color:#f8c69b;font:500 12px/1.2 var(--mono)}.ots .ots-chapters a:hover{border-color:var(--orange);color:#ffe0c4}.ots .ots-chapters a svg{width:13px;height:13px}.ots .ots-mbar{display:none}.ots .ots-stagebar{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(15,26,45,.7)}.ots .ots-seg{display:inline-flex;padding:3px;border:1px solid var(--line2);border-radius:10px;background:var(--bg)}.ots .ots-seg button{min-height:32px;padding:0 12px;border-radius:7px;color:var(--muted);font:500 13px/1 var(--sans);white-space:nowrap}.ots .ots-seg .ots-seg-u{margin-left:5px;padding:1px 5px;border-radius:5px;background:rgba(139,124,246,.16);color:#c4b5fd;font:600 10.5px/1.3 var(--mono)}.ots .ots-ctl.ots-dim{opacity:.45}.ots .ots-seg button.ots-on{background:var(--panel3);color:#fff;box-shadow:inset 0 0 0 1px #3a5076}.ots .ots-seg button:hover:not(.ots-on){color:var(--ink)}.ots label.ots-ctl{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;white-space:nowrap;cursor:pointer}.ots label.ots-ctl b{color:#dbe5f4;font:500 13px/1 var(--mono);min-width:34px}.ots input.ots-range{width:96px;height:20px;background:transparent;cursor:pointer}.ots input.ots-range::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,#8b7cf6 var(--p,78%),#24344f var(--p,78%))}.ots input.ots-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-6px;border-radius:50%;background:#fff;border:3px solid #8b7cf6}.ots input.ots-range::-moz-range-track{height:4px;border-radius:4px;background:#24344f}.ots input.ots-range::-moz-range-progress{height:4px;border-radius:4px;background:#8b7cf6}.ots input.ots-range::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid #8b7cf6}.ots input.ots-switch{position:relative;width:34px;height:20px;border-radius:20px;background:#24344f;border:1px solid #2e4263;cursor:pointer;transition:background .15s}.ots input.ots-switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#9fb3cf;transition:transform .15s,background .15s}.ots input.ots-switch:checked{background:rgba(139,124,246,.45);border-color:#8b7cf6}.ots input.ots-switch:checked::after{transform:translateX(14px);background:#fff}.ots .ots-stagebar .ots-sp{flex:1 1 0}.ots .ots-canvas-wrap{position:relative;height:600px;flex:none;touch-action:none;background:radial-gradient(rgba(148,163,184,.13) 1px,transparent 1.3px) 0 0/24px 24px}.ots canvas.ots-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:default;touch-action:none}.ots canvas.ots-canvas:focus-visible{outline-offset:-3px!important}.ots .ots-hint{display:block;position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:calc(100% - 24px);padding:8px 14px;border:1px solid rgba(139,124,246,.55);border-radius:10px;background:rgba(17,24,48,.92);color:#e9e4ff;font-size:13.5px;line-height:1.35;text-align:center;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}.ots .ots-hint:empty{display:none}.ots .ots-legend{position:absolute;left:12px;bottom:10px;display:flex;flex-wrap:wrap;gap:6px 14px;padding:6px 10px;border:1px solid var(--line);border-radius:9px;background:rgba(10,18,32,.82);color:var(--muted);font-size:11.5px;pointer-events:none}.ots .ots-legend span{display:inline-flex;align-items:center;gap:6px}.ots .ots-legend i{display:inline-block;width:20px;height:0;border-top:2px solid #4f8ff7}.ots .ots-legend i.ots-l-nf{border-top:2px dashed #94a3b8}.ots button.ots-chip{position:absolute;right:12px;bottom:10px;display:flex;align-items:center;gap:8px;max-width:calc(100% - 24px);padding:8px 12px;border:1px solid rgba(253,224,71,.45);border-radius:10px;background:rgba(10,18,32,.92);color:#fff7c2;font:500 13px/1.25 var(--mono);text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.4)}.ots button.ots-chip em{font-style:normal;color:var(--green)}.ots button.ots-chip em.ots-down{color:#ff8fa3}.ots .ots-tip{display:block;position:absolute;z-index:3;width:250px;padding:11px 12px;border:1px solid var(--line2);border-radius:11px;background:rgba(9,15,28,.96);color:var(--ink2);font-size:12.5px;line-height:1.45;pointer-events:none;box-shadow:0 12px 32px rgba(0,0,0,.45)}.ots .ots-tip b{display:block;color:#fff;font-size:13.5px;margin:0 0 4px}.ots .ots-tip .ots-tip-row{display:flex;justify-content:space-between;gap:10px}.ots .ots-tip .ots-tip-row span:last-child{color:#dbe5f4;font-family:var(--mono)}.ots .ots-tip .ots-tip-fp{margin-top:5px;color:#ff8fa3}.ots .ots-status{display:flex;align-items:center;flex-wrap:wrap;gap:8px 0;padding:11px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:#cbd5e1;font-size:14px}.ots .ots-status > span{display:inline-flex;align-items:center;gap:9px;padding:0 16px;border-right:1px solid var(--line2);white-space:nowrap}.ots .ots-status > span:first-child{padding-left:0}.ots .ots-status > span:last-child{border-right:0;white-space:normal}.ots .ots-status svg{width:18px;height:18px;color:#2dd4bf}.ots .ots-status .ots-s-dot{width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 10px rgba(253,224,71,.7);flex:none}.ots .ots-result{position:relative;overflow:hidden}.ots .ots-result::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#fde047,#f6a465,#f472b6,#8b7cf6)}.ots .ots-r-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}.ots .ots-r-top h3.ots-ch{margin:0!important}.ots .ots-r-top .ots-r-btns{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}.ots .ots-r-title{color:#fff;font-size:17px;font-weight:700;line-height:1.35;margin:0 0 12px}.ots .ots-r-nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 12px}.ots .ots-r-num{padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:var(--bg2)}.ots .ots-r-num small{display:block;color:var(--muted);font-size:12px;line-height:1.3;margin:0 0 6px}.ots .ots-r-num b{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;color:#fff;font:600 21px/1.15 var(--mono)}.ots .ots-r-num b .ots-arrow{color:var(--muted);font-weight:400}.ots .ots-r-num b .ots-to{color:var(--yellow)}.ots .ots-r-num em{font-style:normal;font:600 13px/1 var(--mono);padding:3px 7px;border-radius:6px;background:rgba(74,222,128,.12);color:var(--green)}.ots .ots-r-num em.ots-down{background:rgba(255,77,109,.12);color:#ff8fa3}.ots .ots-r-num em.ots-flat{background:rgba(148,163,184,.12);color:#cbd5e1}.ots .ots-r-why{display:grid;gap:8px;margin:0 0 12px}.ots .ots-r-why p{color:var(--ink2);font-size:14.5px;line-height:1.6}.ots .ots-r-why p b{color:#fff}.ots .ots-r-why code,.ots .ots-math code{padding:1px 6px;border-radius:5px;background:var(--bg2);border:1px solid var(--line);color:#c7e3ff;font:500 13px/1.6 var(--mono);white-space:normal}.ots .ots-r-list{display:grid;gap:4px;margin:2px 0 0;font-size:13px;color:var(--ink2)}.ots .ots-r-list li{display:flex;gap:8px;align-items:baseline}.ots .ots-r-list li::marker{content:none}.ots .ots-r-list li i{flex:none;width:8px;height:8px;border-radius:2px;background:#ff4d6d;transform:translateY(-1px)}.ots .ots-next{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:0 0 10px;border:1px dashed rgba(184,214,90,.45);border-radius:12px;background:rgba(184,214,90,.05)}.ots .ots-next div{flex:1 1 220px;min-width:0}.ots .ots-next small{display:block;color:#c6e36a;font:600 11px/1.2 var(--mono);letter-spacing:.12em;margin:0 0 3px}.ots .ots-next b{display:block;color:#fff;font-size:14.5px;line-height:1.35}.ots .ots-next span{display:block;color:#a9b8cf;font-size:13px;line-height:1.45}.ots .ots-audit{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(124,196,255,.04)}.ots .ots-audit p{flex:1 1 240px;color:#a9b8cf;font-size:13px;line-height:1.5}.ots .ots-audit p b{color:#dbe5f4}.ots a.ots-audit-btn{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 13px;border:1px solid rgba(124,196,255,.45);border-radius:10px;background:rgba(124,196,255,.08);color:#cfe7ff!important;font:600 13.5px/1 var(--sans);white-space:nowrap}.ots a.ots-audit-btn:hover{border-color:#7cc4ff;background:rgba(124,196,255,.15)}.ots a.ots-audit-btn svg{width:16px;height:16px}.ots .ots-r-empty{display:grid;gap:12px}.ots .ots-r-empty p{color:var(--ink2);font-size:14.5px;line-height:1.55}.ots .ots-sharebox{display:flex;gap:8px;margin:10px 0 0}.ots input.ots-input,.ots select.ots-select{width:100%;min-height:40px;padding:0 11px;border:1px solid var(--line2);border-radius:9px;background:var(--bg2);color:#e8eef8;font:500 14px/1.2 var(--sans)}.ots select.ots-select{padding-right:30px;background-image:linear-gradient(45deg,transparent 50%,#8a9bb5 50%),linear-gradient(135deg,#8a9bb5 50%,transparent 50%);background-position:calc(100% - 16px) 52%,calc(100% - 11px) 52%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;cursor:pointer}.ots select.ots-select option{background:#0f1a2d;color:#e8eef8}.ots input.ots-input:focus,.ots select.ots-select:focus{border-color:#4f8ff7}.ots input.ots-input:disabled{opacity:.5}.ots input.ots-input.ots-assume{border-style:dashed;border-color:#3a5076;background:rgba(253,224,71,.03)}.ots .ots-pg-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}.ots .ots-pg-head select{flex:1 1 auto}.ots .ots-swatch{flex:none;width:14px;height:14px;border-radius:50%;border:3px solid #fde047;box-shadow:0 0 10px currentColor}.ots .ots-sec{margin:0 0 12px}.ots .ots-sec:last-child{margin:0}.ots .ots-sec-h{display:flex;align-items:center;gap:8px;margin:0 0 8px;color:var(--muted);font:600 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}.ots .ots-sec-h i{font-style:normal;padding:2px 7px;border-radius:5px;letter-spacing:.06em}.ots .ots-tag-calc{background:rgba(45,212,191,.1);color:#5eead4}.ots .ots-tag-assume{background:rgba(253,224,71,.1);color:#fde68a}.ots .ots-kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 8px}.ots .ots-kv div{padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg2)}.ots .ots-kv small{display:block;color:var(--muted);font-size:11.5px;line-height:1.3}.ots .ots-kv b{display:block;color:#fff;font:600 16px/1.3 var(--mono)}.ots .ots-breakdown{color:var(--ink2);font-size:13.5px;line-height:1.6}.ots .ots-breakdown b{color:#fff;font-family:var(--mono);font-weight:500}.ots .ots-io{display:grid;gap:3px;margin:6px 0 0;font-size:13px;color:var(--ink2)}.ots .ots-io li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid rgba(30,44,70,.7)}.ots .ots-io li:last-child{border-bottom:0}.ots .ots-io li span:last-child{font-family:var(--mono);color:#dbe5f4;white-space:nowrap}.ots .ots-io li.ots-io-nf span:last-child{color:#94a3b8}.ots .ots-io li.ots-io-dc span:last-child{color:#ff8fa3}.ots .ots-fields{display:grid;gap:9px}.ots label.ots-field{display:grid;gap:5px;color:var(--ink2);font-size:13px}.ots label.ots-field small{color:var(--muted);font-size:12px;line-height:1.35}.ots .ots-fields-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.ots .ots-badges{display:flex;flex-wrap:wrap;gap:6px}.ots .ots-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:7px;border:1px solid rgba(255,77,109,.35);background:rgba(255,77,109,.07);color:#ffb3c1;font:500 11.5px/1.3 var(--mono)}.ots .ots-badge-ok{border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.07);color:#a7f3c0}.ots .ots-kb-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;margin:0 0 9px}.ots .ots-kb-row3{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:9px;align-items:end}.ots .ots-kb-msg{min-height:20px;margin:10px 0 0;color:#a9b8cf;font-size:13px}.ots .ots-kb p.ots-kb-tip{margin:12px 0 0;color:var(--muted);font-size:12.5px;line-height:1.5}.ots kbd{display:inline-block;min-width:20px;padding:1px 6px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;background:var(--panel2);color:#dbe5f4;font:500 11.5px/1.4 var(--mono);text-align:center}.ots .ots-rank-list{display:grid;gap:3px}.ots .ots-rank-list button{display:grid;grid-template-columns:26px minmax(0,1fr) minmax(60px,34%) 66px;align-items:center;gap:10px;width:100%;padding:6px 8px;border-radius:9px;text-align:left;color:var(--ink2);font-size:13.5px}.ots .ots-rank-list button:hover,.ots .ots-rank-list button.ots-on{background:rgba(124,196,255,.07)}.ots .ots-rank-list button.ots-on{box-shadow:inset 0 0 0 1px rgba(124,196,255,.35)}.ots .ots-rank-list .ots-rk{color:var(--muted);font:500 12px/1 var(--mono);text-align:right}.ots .ots-rank-list .ots-rn{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ots .ots-rank-list .ots-rn i{flex:none;width:9px;height:9px;border-radius:50%}.ots .ots-rank-list .ots-rn span{overflow:hidden;text-overflow:ellipsis}.ots .ots-rank-list .ots-rb{height:7px;border-radius:7px;background:#16233b;overflow:hidden}.ots .ots-rank-list .ots-rb i{display:block;height:100%;border-radius:7px}.ots .ots-rank-list .ots-rv{color:#dbe5f4;font:500 13px/1 var(--mono);text-align:right}.ots .ots-rank-foot{margin:10px 0 0;color:var(--muted);font-size:12.5px;line-height:1.5}.ots details.ots-math{margin:14px 0 0;border:1px solid var(--line);border-radius:14px;background:var(--panel);scroll-margin-top:90px}.ots details.ots-math > summary{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;list-style:none;color:#fff;font-size:16px;font-weight:700}.ots details.ots-math > summary svg{width:20px;height:20px;color:var(--cyan)}.ots details.ots-math > summary small{color:var(--muted);font-size:13px;font-weight:400}.ots .ots-math-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0 18px 18px}.ots .ots-math-body .ots-sec2{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}.ots .ots-math-body .ots-sec2.ots-wide{grid-column:1/-1}.ots .ots-math h4{margin:0 0 8px!important;padding:0!important;border:0!important;color:#fff!important;font:700 15px/1.3 var(--sans)!important;text-transform:none!important;letter-spacing:0!important;background:none!important}.ots .ots-math p,.ots .ots-math li{color:var(--ink2);font-size:14px;line-height:1.6}.ots .ots-math p + p,.ots .ots-math ul + p{margin-top:10px}.ots .ots-math ul{display:grid;gap:6px;margin:8px 0 0!important}.ots .ots-math ul li{position:relative;padding-left:16px}.ots .ots-math ul li i.ots-bul{position:absolute;left:2px;top:10px;width:5px;height:5px;border-radius:50%;background:var(--cyan)}.ots .ots-formula{margin:8px 0;padding:10px 12px;border-radius:9px;background:#08101d;border:1px solid var(--line);color:#c7e3ff;font:500 13.5px/1.6 var(--mono);overflow-x:auto;white-space:nowrap}.ots details.ots-more{margin:10px 0 0;border-top:1px solid var(--line);padding-top:8px}.ots details.ots-more summary{display:flex;align-items:center;gap:8px;color:var(--cyan);font-size:13.5px;font-weight:500;cursor:pointer;list-style:none;padding:4px 0}.ots details.ots-more div{padding:6px 0 0}.ots .ots-terminal{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:14px 0 0;padding:18px 20px;border:1px solid rgba(246,164,101,.35);border-radius:16px;background:radial-gradient(600px 160px at 0% 50%,rgba(246,164,101,.12),transparent 70%),var(--panel)}.ots .ots-terminal .ots-cap{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;border:1px solid rgba(246,164,101,.4);background:rgba(246,164,101,.1);color:var(--orange)}.ots .ots-terminal .ots-cap svg{width:26px;height:26px}.ots .ots-terminal div.ots-t-copy{flex:1 1 320px;min-width:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}.ots .ots-terminal h3{margin:0!important;padding:0 18px 0 0!important;border:0!important;border-right:1px solid var(--line2)!important;background:none!important;color:#fff!important;font:700 21px/1.25 var(--sans)!important;letter-spacing:-.01em!important;text-transform:none!important}.ots .ots-terminal p{flex:1 1 260px;color:#c3cfdf;font-size:14.5px;line-height:1.55}.ots .ots-t-go{flex:none}.ots a.ots-t-btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:11px;background:linear-gradient(180deg,#f9b47c,#f39a58);color:#1a1006!important;font:700 15px/1 var(--sans);white-space:nowrap;box-shadow:0 8px 22px rgba(246,164,101,.25)}.ots a.ots-t-btn:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(246,164,101,.35);color:#1a1006!important}.ots a.ots-t-btn svg{width:18px;height:18px}.ots .ots-foot{margin:12px 2px 0;color:var(--dim);font-size:12.5px;line-height:1.5}.ots .ots-foot a{color:#9fb3cf}.ots .ots-pop{position:absolute;z-index:5;left:12px;top:12px;width:min(390px,calc(100% - 24px));padding:14px 16px;border:1px solid var(--line2);border-radius:12px;background:rgba(9,15,28,.97);color:var(--ink2);font-size:13.5px;line-height:1.55;box-shadow:0 16px 40px rgba(0,0,0,.5)}.ots .ots-pop b{color:#fff}.ots .ots-pop p{margin:7px 0 0}.ots .ots-pop .ots-popx{margin-top:12px}@container ots (max-width:979px){.ots .ots-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"stage stage" "status status" "result result" "brief tools" "page rank" "kb kb"}.ots .ots-side,.ots .ots-colA,.ots .ots-colB{display:contents}.ots .ots-scen{display:none}.ots .ots-brief{grid-area:brief}.ots .ots-tools{grid-area:tools}.ots .ots-tool-grid,.ots .ots-tools .ots-pause{display:none}.ots .ots-tool-grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.ots .ots-mbar{display:grid;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(15,26,45,.85)}.ots .ots-mbar-r1{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}.ots .ots-mbar-r2{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.ots .ots-mbar-r2 .ots-btn{flex-direction:column;gap:3px;min-height:52px;padding:6px 2px;font-size:11.5px}.ots .ots-mbar-r2 .ots-btn svg{width:18px;height:18px}.ots .ots-mbar .ots-btn-sq{width:44px;min-height:44px;padding:0}.ots .ots-mbar select.ots-select{min-height:44px;font-size:15px;font-weight:500}.ots .ots-stagebar .ots-fitbtn{display:none}.ots .ots-canvas-wrap{height:clamp(380px,62cqw,620px)}.ots .ots-hero{grid-template-columns:minmax(0,1fr);padding:32px 28px 24px}.ots .ots-hero-art{display:none}.ots .ots-math-body{grid-template-columns:minmax(0,1fr)}}@container ots (max-width:640px){.ots .ots-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"stage" "status" "result" "brief" "tools" "page" "rank" "kb";gap:12px}.ots .ots-canvas-wrap{height:clamp(400px,128cqw,600px)}.ots .ots-app{padding:0 10px 12px}.ots .ots-hero + .ots-app{padding-top:12px}.ots .ots-bar{padding:10px 12px;gap:10px;margin:0 0 12px}.ots .ots-name{font-size:16px}.ots .ots-bar-r{display:none}.ots .ots-hero{padding:26px 18px 20px}.ots h2.ots-h{font-size:32px!important}.ots p.ots-lede{font-size:16px}.ots .ots-learn li{font-size:15px}.ots a.ots-cta{flex:1 1 100%;justify-content:center}.ots .ots-card{padding:14px}.ots .ots-stagebar{gap:8px 10px;padding:9px 10px}.ots .ots-seg button{padding:0 10px;font-size:12.5px}.ots input.ots-range{width:76px}.ots .ots-legend{display:none}.ots .ots-status{font-size:13px;padding:10px 12px}.ots .ots-status > span{padding:0 10px}.ots .ots-status .ots-s-mode,.ots .ots-status .ots-s-d{display:none}.ots .ots-r-num b{font-size:18px}.ots .ots-r-top .ots-r-btns{margin-left:0;width:100%}.ots .ots-r-top .ots-r-btns .ots-btn{flex:1 1 0}.ots .ots-terminal{padding:16px}.ots .ots-terminal h3{border-right:0!important;padding:0!important;font-size:19px!important}.ots .ots-t-go{flex:1 1 100%}.ots a.ots-t-btn{width:100%;justify-content:center}.ots .ots-math-body{padding:0 12px 12px}.ots .ots-kb-row3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ots .ots-kb-row3 label{grid-column:1/-1}.ots .ots-kb p.ots-kb-tip,.ots .ots-wide-only{display:none}.ots .ots-rank-list button{grid-template-columns:22px minmax(0,1fr) 56px 60px;gap:8px}}@media (max-width:700px){.ots{margin:12px auto 20px}}@media (prefers-reduced-motion:reduce){.ots *{transition:none!important;animation:none!important}}</style><div class="ots-shell"><div role="region" class="ots-hero" aria-labelledby="ots-h"><div class="ots-hero-copy"><p class="ots-kicker"><span class="ots-dot" aria-hidden="true"></span>INTERACTIVE PAGERANK LAB</p><h2 class="ots-h" id="ots-h">See exactly what <span>one link</span> passes</h2><p class="ots-lede">Draw a link and the model recalculates on the spot. In a few minutes you&#8217;ll see how a page&#8217;s score is shared by its links, what nofollow changes, and why a link from a PR 8 site can be worth more than dozens of small ones.</p><ul class="ots-learn"><li><i aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h4"/><path d="M9 12l10-6"/><path d="M9 12h10"/><path d="M9 12l10 6"/><circle cx="4" cy="12" r="1.5"/></svg></i><span>Every link on a page takes a share, so more links means less per link.</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/><path d="M4 4l16 16"/></svg></i><span>A nofollow link still takes its share here. It just doesn&#8217;t pass it on.</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg></i><span>Big sites start high, and link schemes show how far bought links can push a page.</span></li></ul><div class="ots-ctas"><a class="ots-cta ots-cta-p ots-start" href="#ots-app"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 5v14l12-7z" fill="currentColor" stroke="none"/></svg>Start the first experiment</a><a class="ots-cta ots-cta-s ots-mathlink" href="#ots-math">How the math works<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div><details class="ots-howto"><summary><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>How to use it, in four steps<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary><ol><li><b class="ots-n">1</b><b>Start with the first experiment.</b> It loads six pages, including a PR 8 news homepage. YOUR PAGE starts at PR 0.</li><li><b class="ots-n">2</b><b>Draw a link.</b> With + Link on, tap the Industry blog post, then YOUR PAGE. Or press Do it for me.</li><li><b class="ots-n">3</b><b>Read the result.</b> You get the before and after score, the position change and the exact math.</li><li><b class="ots-n">4</b><b>Keep going.</b> Follow the next experiment, load a big-site Playground or a link scheme, or share what you built.</li></ol></details></div><div class="ots-hero-art" aria-hidden="true"><div class="ots-art-svg"><svg viewBox="0 0 480 320" role="presentation" focusable="false"><defs><filter id="ots-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="ots-gb"><stop offset="0" stop-color="#4f8ff7" stop-opacity=".55"/><stop offset="1" stop-color="#0a1220" stop-opacity=".9"/></radialGradient><radialGradient id="ots-gp"><stop offset="0" stop-color="#f472b6" stop-opacity=".45"/><stop offset="1" stop-color="#0a1220" stop-opacity=".9"/></radialGradient><radialGradient id="ots-gy"><stop offset="0" stop-color="#fde047" stop-opacity=".45"/><stop offset="1" stop-color="#0a1220" stop-opacity=".9"/></radialGradient><radialGradient id="ots-gv"><stop offset="0" stop-color="#a78bfa" stop-opacity=".45"/><stop offset="1" stop-color="#0a1220" stop-opacity=".9"/></radialGradient></defs><g fill="none" stroke-linecap="round"><path d="M141 88 Q250 50 357 72" stroke="#4f8ff7" stroke-width="2.2" opacity=".85"/><path d="M62 252 Q10 170 84 120" stroke="#a78bfa" stroke-width="1.8" opacity=".85"/><path d="M138 110 Q215 180 268 226" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="6 6" opacity=".7"/><path d="M372 94 Q365 180 308 224" stroke="#f472b6" stroke-width="3.4" filter="url(#ots-glow)"/></g><path d="M358 72 L346.2 74.7 L348.2 64.9 z" fill="#4f8ff7"/><path d="M85 119 l-11 3 l7 7 z" fill="#a78bfa"/><path d="M269 227 l-6 -11 l-5 8 z" fill="#94a3b8"/><path d="M307 225 l12 -3 l-7 -8 z" fill="#f472b6"/><circle cx="250" cy="65" r="3.5" fill="#9cc2ff" filter="url(#ots-glow)"/><circle cx="38" cy="182" r="3" fill="#c4b5fd" filter="url(#ots-glow)"/><circle cx="366" cy="150" r="4" fill="#ffd1ea" filter="url(#ots-glow)"/><circle cx="336" cy="203" r="4" fill="#ffd1ea" filter="url(#ots-glow)"/><g stroke-width="3.2"><circle cx="110" cy="95" r="30" fill="url(#ots-gb)" stroke="#4f8ff7" filter="url(#ots-glow)"/><circle cx="380" cy="74" r="20" fill="url(#ots-gp)" stroke="#f472b6" filter="url(#ots-glow)"/><circle cx="70" cy="266" r="15" fill="url(#ots-gv)" stroke="#a78bfa" filter="url(#ots-glow)"/><circle cx="290" cy="238" r="19" fill="url(#ots-gy)" stroke="#fde047" filter="url(#ots-glow)"/></g><circle cx="290" cy="238" r="29" fill="none" stroke="#fde047" stroke-width="1.5" stroke-dasharray="4 5" opacity=".7"/><g font-family="Roboto Mono, ui-monospace, Menlo, monospace" text-anchor="middle"><text x="110" y="144" fill="#fff" font-size="13" font-weight="700">News homepage</text><text x="110" y="161" fill="#8fd3f4" font-size="11.5">PR 8.0</text><text x="380" y="28" fill="#fff" font-size="13" font-weight="700">Industry blog post</text><text x="380" y="44" fill="#8fd3f4" font-size="11.5">PR 4.1</text><text x="118" y="300" fill="#fff" font-size="13" font-weight="700">Forum thread</text><text x="118" y="316" fill="#8fd3f4" font-size="11.5">PR 3.2</text><text x="290" y="285" fill="#fde047" font-size="13" font-weight="700">YOUR PAGE</text><text x="290" y="302" fill="#8fd3f4" font-size="11.5">PR 2.7</text></g><text x="384" y="176" fill="#ffd1ea" font-size="12" font-weight="500" font-family="Roboto Mono, ui-monospace, Menlo, monospace">passes 17.9 raw</text></svg></div><div class="ots-art-chip"><small>ONE NEW LINK, YOUR PAGE</small><b>PR 0.0 &#8594; 2.7 <em>+2.7</em></b></div></div></div><div role="region" class="ots-app" id="ots-app" aria-label="Link Graph Simulator"><div class="ots-bar"><span class="ots-logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M10.8 7.2L6.2 15.8M13.2 7.2l4.6 8.6M7.5 18h9"/></svg></span><span class="ots-name">Link Graph Simulator</span><span class="ots-live">LIVE</span><span class="ots-bar-r">Illustrative page-level model, not Google&#8217;s data</span></div><div class="ots-grid"><div class="ots-stage"><div class="ots-mbar"><div class="ots-mbar-r1"><label class="ots-sr" for="ots-msel">Scenario</label><select class="ots-select ots-msel" id="ots-msel"></select><button type="button" class="ots-btn ots-btn-sq ots-btn-blue ots-pausebtn" aria-label="Pause animation"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14" stroke-width="3"/></svg></button><button type="button" class="ots-btn ots-btn-sq ots-fit" aria-label="Fit the graph to the view"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button></div><div class="ots-mbar-r2" role="group" aria-label="Tools"><button type="button" class="ots-btn ots-tool" data-tool="move"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 3l14 7-6.2 1.8L11 18z"/></svg>Move</button><button type="button" class="ots-btn ots-tool" data-tool="link"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>+ Link</button><button type="button" class="ots-btn ots-tool" data-tool="nofollow"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/><path d="M4 4l16 16"/></svg>Nofollow</button><button type="button" class="ots-btn ots-tool" data-tool="delete"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete</button><button type="button" class="ots-btn ots-addpage"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>+ Page</button></div></div><div class="ots-stagebar"><span class="ots-seg ots-mode" role="group" aria-label="Model"><button type="button" data-mode="open" aria-pressed="true">Open web <span class="ots-seg-u">PR 0&#8211;10</span></button><button type="button" data-mode="pure" aria-pressed="false">Pure PageRank <span class="ots-seg-u">%</span></button></span><button type="button" class="ots-help ots-modehelp" aria-label="What do the two models mean?"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 1 1 3.6 2.4c-.7.3-1.1.9-1.1 1.7v.2M12 17h.01"/></svg></button><label class="ots-ctl">d <input class="ots-range ots-damp" type="range" min="0.5" max="0.95" step="0.05" value="0.85" aria-label="Damping factor d"><b class="ots-damp-v">0.85</b></label><label class="ots-ctl ots-rawctl"><input class="ots-switch ots-rawsw" type="checkbox" aria-label="Show raw scores next to PR">Raw scores</label><span class="ots-sp"></span><button type="button" class="ots-btn ots-btn-sm ots-fit ots-fitbtn"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg>Fit view</button></div><div class="ots-canvas-wrap"><canvas class="ots-canvas" tabindex="0" role="application" aria-roledescription="interactive link graph" aria-label="Link graph. Page details and the keyboard link builder below give the same controls without a mouse."></canvas><span class="ots-hint" aria-hidden="true"></span><span class="ots-legend" aria-hidden="true"><span><i></i>Followed link</span><span><i class="ots-l-nf"></i>Nofollow</span></span><button type="button" class="ots-chip ots-hide"></button><span class="ots-tip ots-hide" aria-hidden="true"></span></div></div><div class="ots-side"><div class="ots-card ots-scen"><h3 class="ots-ch"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg>Scenarios<span class="ots-ch-r"><button type="button" class="ots-help ots-scenhelp" aria-label="About the scenarios"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 1 1 3.6 2.4c-.7.3-1.1.9-1.1 1.7v.2M12 17h.01"/></svg></button></span></h3><div class="ots-scen-grid" role="group" aria-label="Scenarios"></div></div><div class="ots-card ots-tools"><h3 class="ots-ch"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>Tools</h3><div class="ots-tool-grid" role="group" aria-label="Tools"><button type="button" class="ots-btn ots-tool" data-tool="move"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 3l14 7-6.2 1.8L11 18z"/></svg>Move</button><button type="button" class="ots-btn ots-addpage"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>+ Page</button><button type="button" class="ots-btn ots-tool" data-tool="link"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>+ Link</button><button type="button" class="ots-btn ots-tool" data-tool="nofollow"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/><path d="M4 4l16 16"/></svg>Nofollow</button><button type="button" class="ots-btn ots-tool" data-tool="delete"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Delete</button></div><div class="ots-tool-grid2"><button type="button" class="ots-btn ots-btn-blue ots-pausebtn ots-pause"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14" stroke-width="3"/></svg><span>Pause</span></button><button type="button" class="ots-btn ots-undo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Undo</button><button type="button" class="ots-btn ots-reset"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/></svg>Reset</button></div><div class="ots-tool-note ots-toolnote"></div></div></div><div class="ots-status" role="status"><span class="ots-s-model"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 20V12M12 20V5M19 20v-8" stroke-width="3"/></svg><b>Illustrative model</b></span><span class="ots-s-mode">Open web</span><span class="ots-s-d">d = 0.85</span><span class="ots-s-n">6 pages</span><span class="ots-s-msg"><i class="ots-s-dot"></i><span class="ots-s-text">Ready</span></span></div><div class="ots-colA"><div role="region" class="ots-card ots-result" aria-labelledby="ots-r-h"><div class="ots-r-top"><h3 class="ots-ch" id="ots-r-h"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>Experiment result</h3><div class="ots-r-btns"><button type="button" class="ots-btn ots-btn-sm ots-share"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg><span>Share<span class="ots-wide-only"> this experiment</span></span></button><button type="button" class="ots-btn ots-btn-sm ots-saveimg"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="15.5" cy="9" r="1.3"/></svg>Save image</button></div></div><div class="ots-r-body" aria-live="polite"></div><div class="ots-r-share ots-hide"></div><div class="ots-audit"><p><b>Want this for your real backlinks?</b> I&#8217;ll audit which links actually pass value to your pages and which ones put you at risk. The form opens with SEO audit already picked, and I reply within one business day.</p><div class="ots-audit-go"><a class="ots-audit-btn ots-audit-cta" href="https://optimizationtheory.com/contact-us/?topic=seo-audit">Get a backlink audit<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></div><div role="region" class="ots-card ots-rank" aria-labelledby="ots-rk-h"><h3 class="ots-ch" id="ots-rk-h"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 20V12M12 20V5M19 20v-8" stroke-width="3"/></svg>Position within this graph</h3><div class="ots-rank-list"></div><div class="ots-rank-foot"></div></div><div role="region" class="ots-card ots-kb" aria-labelledby="ots-k-h"><h3 class="ots-ch" id="ots-k-h"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Build a link with the keyboard</h3><div class="ots-kb-row"><label class="ots-field">From<select class="ots-select ots-kfrom"></select></label><label class="ots-field">To<select class="ots-select ots-kto"></select></label></div><div class="ots-kb-row3"><label class="ots-field">Link type<select class="ots-select ots-krel"><option value="follow">Followed</option><option value="nofollow">Nofollow</option></select></label><button type="button" class="ots-btn ots-btn-go ots-kadd"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>Add link</button><button type="button" class="ots-btn ots-kdel"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Remove</button></div><div class="ots-kb-msg" aria-live="polite"></div><p class="ots-kb-tip">Shortcuts when the graph has focus: <kbd>Space</kbd> pause, <kbd>F</kbd> fit view, <kbd>Esc</kbd> cancel a link, <kbd>Ctrl</kbd> + <kbd>Z</kbd> undo.</p></div></div><div class="ots-colB"><div class="ots-card ots-brief" aria-live="polite"></div><div role="region" class="ots-card ots-page" aria-labelledby="ots-p-h"><h3 class="ots-ch" id="ots-p-h"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Page details</h3><div class="ots-pg-head"><i class="ots-swatch" aria-hidden="true"></i><label class="ots-sr" for="ots-psel">Page</label><select class="ots-select ots-psel" id="ots-psel"></select></div><div class="ots-pg-body"></div></div></div></div><details class="ots-math" id="ots-math"><summary><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 5H6l6 7-6 7h12"/></svg><span>Model assumptions and math <small>Formulas, what nofollow does here, what this can&#8217;t tell you, sources</small></span><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary><div class="ots-math-body"><div class="ots-sec2 ots-wide"><h4>Two ways to run the same graph</h4><p><b>Open web (the default)</b> treats every page as part of the much bigger web and shows PR on the 0 to 10 scale. It uses the form from Brin and Page&#8217;s 1998 paper, plus two settings for everything that isn&#8217;t drawn:</p><p class="ots-formula">score(i) = (1 &#8722; d) + E(i) + d &#215; &#931; score(j) &#247; L(j)</p><ul><li><i class="ots-bul"></i><b>E(i)</b> comes from the page&#8217;s <b>starting PR</b>: the PR it gets from backlinks that aren&#8217;t drawn here. A starting PR of p means E = (1 &#8722; d) &#215; (6<sup>p</sup> &#8722; 1), so the page scores (1 &#8722; d) &#215; 6<sup>p</sup> before drawn links add anything. Big sites start high (the News homepage is PR 8).</li><li><i class="ots-bul"></i><b>L(j)</b> counts every link on page j: the links drawn here plus its links to pages that aren&#8217;t drawn (also an assumption you can edit).</li><li><i class="ots-bul"></i>A page with nothing linking to it sits at a raw 0.15, which is PR 0. Open web scores don&#8217;t add up to a fixed total.</li></ul><p><b>Pure PageRank</b> drops the outside assumptions and runs the normalized version with a uniform random jump, so every score is a share and they all add up to 100%:</p><p class="ots-formula">p(i) = (1 &#8722; d) &#247; N + d &#215; &#931; p(j) &#247; L(j) + d &#215; R &#247; N</p><ul><li><i class="ots-bul"></i><b>N</b> is the number of pages drawn, <b>L(j)</b> is the number of links drawn on page j.</li><li><i class="ots-bul"></i><b>R</b> is the score sitting on pages with no links out, plus the unpassed share of nofollow links. It goes back into the random jump and is spread evenly over every page.</li><li><i class="ots-bul"></i>There&#8217;s no PR 0 to 10 in Pure mode. Six pages sharing 100% between them can&#8217;t produce a PR 8 site: that scale only means something for a page inside the whole web.</li><li><i class="ots-bul"></i><b>d</b> is the damping factor, 0.85 by default, the value the original paper suggests. You can change it above the graph.</li></ul><p>Both modes are solved by power iteration until the scores stop changing (to about 13 decimal places).</p></div><div class="ots-sec2"><h4>What one followed link passes</h4><p class="ots-formula">passes = d &#215; score(source) &#247; L(source)</p><p>In the first experiment the Industry blog post is PR 4.1 (a raw 252.9) and, once it links to YOUR PAGE, has 12 links (2 drawn here, 10 to pages not drawn). So the link passes 0.85 &#215; 252.9 &#247; 12 = 17.9, and YOUR PAGE goes from a raw 0.15 (PR 0) to 18.1 (PR 2.7).</p><p>The PR 8 News homepage has 120 links, so its link passes 0.85 &#215; 251,942 &#247; 120 = 1,785 and takes YOUR PAGE to about PR 5.2. One rule of thumb falls out of the math: a link is worth roughly the source&#8217;s PR minus log&#8326; of (its links &#247; 0.85).</p><p>Adding a link adds 1 to L, so every other link on that page carries a little less.</p></div><div class="ots-sec2"><h4>Followed vs. nofollow links</h4><p>One assumption, used in both modes: a nofollow link (or sponsored or ugc) still counts as one of the page&#8217;s links, but passes nothing. In Pure mode its share goes back to the random jump so the total stays 1. In Open web it simply leaves the model.</p><p>That&#8217;s a simplification. Since 2019 Google treats nofollow, sponsored and ugc as hints, so in real Search a nofollow link might be used or might not.</p><details class="ots-more"><summary><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>A short history of PageRank sculpting</summary><div><p>For a few years some SEOs nofollowed their own low-value internal links (login, terms, cart) on the theory that the saved share would flow to the links that mattered. In 2009 Google&#8217;s Matt Cutts confirmed it doesn&#8217;t work that way any more: a nofollowed link&#8217;s share isn&#8217;t handed to the other links on the page, it just doesn&#8217;t flow. This model follows that behavior, which is why the Followed vs. nofollow scenario shows almost nothing gained by nofollowing utility links, while removing them does change the split.</p></div></details></div><div class="ots-sec2"><h4>Parasite pages are a different lesson</h4><p>A third-party page placed on a big site to borrow its reputation falls under Google&#8217;s site reputation abuse policy. That&#8217;s enforced against the page itself, with manual actions and with systems that, over time, rank that section on its own. It isn&#8217;t a change to link math, so the manual action demo in the Parasite scenario marks the page as demoted in Search and leaves every PR alone.</p><p>Google said in November 2024 that first-party involvement doesn&#8217;t change the third-party nature of this content. Since late August 2026, Google says these manual actions no longer affect results for searchers in the European Economic Area.</p></div><div class="ots-sec2"><h4>The PR 0 to 10 scale</h4><p class="ots-formula">PR = log&#8326;(score &#247; 0.15), capped at 10</p><p>0.15 is the raw score of a page with nothing linking to it (1 &#8722; d at the default damping), so PR 0 means no link value and each point is worth 6 times the one below it. PR 8 carries about 1,300 times the raw score of PR 4. Google never published how its old toolbar scale worked and retired it years ago, so base 6 is this model&#8217;s assumption. Turn on Raw scores to see the numbers the math actually uses.</p></div><div class="ots-sec2"><h4>How the math is checked</h4><p>The engine was tested against an independent linear solve of both equations and against NetworkX&#8217;s PageRank on 137 graphs: cycles, chains, pages with no links out, nofollow links, single pages, different damping values and 120 random graphs. Pure scores always total 1, Open web accounting always adds up (base + starting PR + drawn links), adding a link always thins the others, and removing it restores the original scores. 623 checks, 0 failures.</p></div><div class="ots-sec2 ots-wide"><h4>What this model can&#8217;t tell you</h4><ul><li><i class="ots-bul"></i>Google says PageRank still matters as one of its core ranking systems, but it has evolved a lot since 1998 and works alongside many other signals. These scores are not Google&#8217;s and they are not rankings.</li><li><i class="ots-bul"></i>Every page name and starting PR here is an example, not a measurement of a real site. Positions only compare pages inside this graph.</li><li><i class="ots-bul"></i>It treats every link on a page the same. Real systems weigh things like where a link sits, its anchor text, topical relevance and the quality of the site.</li><li><i class="ots-bul"></i>It works page by page. Real sites also carry site-level signals that a page graph can&#8217;t show.</li></ul></div><div class="ots-sec2 ots-wide"><h4>Sources</h4><ul><li><i class="ots-bul"></i><a href="http://infolab.stanford.edu/~backrub/google.html" rel="noopener" target="_blank">Brin and Page (1998), The Anatomy of a Large-Scale Hypertextual Web Search Engine</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/docs/appearance/ranking-systems-guide" rel="noopener" target="_blank">Google Search Central: A guide to Google Search ranking systems</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/blog/2019/09/evolving-nofollow-new-ways-to-identify" rel="noopener" target="_blank">Google (2019): Evolving &#8220;nofollow&#8221;, new ways to identify the nature of links</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links" rel="noopener" target="_blank">Google Search Central: Qualify your outbound links</a></li><li><i class="ots-bul"></i><a href="https://www.mattcutts.com/blog/pagerank-sculpting/" rel="noopener" target="_blank">Matt Cutts (2009): PageRank sculpting</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/docs/essentials/spam-policies" rel="noopener" target="_blank">Google Search Central: Spam policies, including site reputation abuse</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/blog/2024/11/site-reputation-abuse" rel="noopener" target="_blank">Google (2024): Updating our site reputation abuse policy</a></li><li><i class="ots-bul"></i><a href="https://developers.google.com/search/blog/2026/08/update-site-reputation-policy" rel="noopener" target="_blank">Google (2026): Update to the site reputation policy</a></li></ul></div></div></details><div role="complementary" class="ots-terminal" aria-labelledby="ots-t-h"><div class="ots-cap" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/></svg></div><div class="ots-t-copy"><h3 id="ots-t-h">Go deeper in the Black Hat SEO Terminal</h3><p>Explore the research behind PBNs, link schemes, parasite SEO, and detection&#8212;with case studies, sources, and offline demonstrations.</p></div><div class="ots-t-go"><a class="ots-t-btn ots-terminal-cta" href="https://optimizationtheory.com/blackhat-terminal/index.html">Explore the Black Hat SEO Terminal <span aria-hidden="true">&#8594;</span></a></div></div><p class="ots-foot">A teaching model by <a href="https://optimizationtheory.com/about-jourdan-rombough-seo-web-visibility-expert/">Jourdan Rombough</a> at <a href="https://optimizationtheory.com/">Optimization Theory</a>. Page names and numbers are illustrative inputs, not measurements of real sites, and scores are not Google&#8217;s.</p></div></div><div class="ots-js" style="display:none"><script>
+(function () {
+"use strict";
+var ICONS = {"split": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M5 12h4\"/>\u003cpath d=\"M9 12l10-6\"/>\u003cpath d=\"M9 12h10\"/>\u003cpath d=\"M9 12l10 6\"/>\u003ccircle cx=\"4\" cy=\"12\" r=\"1.5\"/>\u003c/svg>", "unlink": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1\"/>\u003cpath d=\"M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1\"/>\u003cpath d=\"M4 4l16 16\"/>\u003c/svg>", "shield": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z\"/>\u003cpath d=\"M9 12l2 2 4-4\"/>\u003c/svg>", "play": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M7 5v14l12-7z\" fill=\"currentColor\" stroke=\"none\"/>\u003c/svg>", "pause": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M8 5v14M16 5v14\" stroke-width=\"3\"/>\u003c/svg>", "arrow": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M5 12h14M13 6l6 6-6 6\"/>\u003c/svg>", "info": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"12\" r=\"9\"/>\u003cpath d=\"M12 11v6M12 7.5h.01\"/>\u003c/svg>", "help": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"12\" r=\"9\"/>\u003cpath d=\"M9.5 9.2a2.6 2.6 0 1 1 3.6 2.4c-.7.3-1.1.9-1.1 1.7v.2M12 17h.01\"/>\u003c/svg>", "chev": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M6 9l6 6 6-6\"/>\u003c/svg>", "graph": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"5\" r=\"2.5\"/>\u003ccircle cx=\"5\" cy=\"18\" r=\"2.5\"/>\u003ccircle cx=\"19\" cy=\"18\" r=\"2.5\"/>\u003cpath d=\"M10.8 7.2L6.2 15.8M13.2 7.2l4.6 8.6M7.5 18h9\"/>\u003c/svg>", "fit": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5\"/>\u003c/svg>", "move": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M5 3l14 7-6.2 1.8L11 18z\"/>\u003c/svg>", "link": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1\"/>\u003cpath d=\"M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1\"/>\u003c/svg>", "trash": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3\"/>\u003c/svg>", "plus": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 5v14M5 12h14\"/>\u003c/svg>", "stack": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3l9 4.5-9 4.5-9-4.5z\"/>\u003cpath d=\"M3 12l9 4.5 9-4.5\"/>\u003cpath d=\"M3 16.5l9 4.5 9-4.5\"/>\u003c/svg>", "sliders": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M4 7h9M17 7h3M4 17h3M11 17h9\"/>\u003ccircle cx=\"15\" cy=\"7\" r=\"2\"/>\u003ccircle cx=\"9\" cy=\"17\" r=\"2\"/>\u003c/svg>", "undo": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M9 14L4 9l5-5\"/>\u003cpath d=\"M4 9h10.5a5.5 5.5 0 0 1 0 11H11\"/>\u003c/svg>", "reset": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M20 12a8 8 0 1 1-2.4-5.7\"/>\u003cpath d=\"M20 4v5h-5\"/>\u003c/svg>", "bars": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M5 20V12M12 20V5M19 20v-8\" stroke-width=\"3\"/>\u003c/svg>", "spark": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z\"/>\u003cpath d=\"M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z\"/>\u003c/svg>", "share": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3v12M7 8l5-5 5 5\"/>\u003cpath d=\"M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5\"/>\u003c/svg>", "image": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003crect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/>\u003cpath d=\"M3 16l5-5 4 4 3-3 6 6\"/>\u003ccircle cx=\"15.5\" cy=\"9\" r=\"1.3\"/>\u003c/svg>", "page": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z\"/>\u003cpath d=\"M14 3v5h5M9 13h6M9 17h6\"/>\u003c/svg>", "keyboard": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003crect x=\"2.5\" y=\"6\" width=\"19\" height=\"12\" rx=\"2\"/>\u003cpath d=\"M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10\"/>\u003c/svg>", "sigma": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M18 5H6l6 7-6 7h12\"/>\u003c/svg>", "cap": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M2 9l10-5 10 5-10 5z\"/>\u003cpath d=\"M6 11v5c3 2.5 9 2.5 12 0v-5\"/>\u003cpath d=\"M22 9v6\"/>\u003c/svg>", "x": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M6 6l12 12M18 6L6 18\"/>\u003c/svg>", "flask": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3\"/>\u003cpath d=\"M7.5 15h9\"/>\u003c/svg>", "globe": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"12\" r=\"9\"/>\u003cpath d=\"M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18\"/>\u003c/svg>", "cube": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\"/>\u003cpath d=\"M12 12l8-4.5M12 12v9M12 12L4 7.5\"/>\u003c/svg>", "layers": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003cpath d=\"M12 3l9 4.5-9 4.5-9-4.5z\"/>\u003cpath d=\"M3 12l9 4.5 9-4.5\"/>\u003cpath d=\"M3 16.5l9 4.5 9-4.5\"/>\u003c/svg>", "farm": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"5.5\" r=\"2.5\"/>\u003ccircle cx=\"5.5\" cy=\"17.5\" r=\"2.5\"/>\u003ccircle cx=\"18.5\" cy=\"17.5\" r=\"2.5\"/>\u003cpath d=\"M10.8 7.8l-4 7.4M13.2 7.8l4 7.4M8 17.5h8\"/>\u003c/svg>", "wheel": "\u003csvg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">\u003ccircle cx=\"12\" cy=\"12\" r=\"8.5\"/>\u003ccircle cx=\"12\" cy=\"12\" r=\"3\"/>\u003c/svg>"};
+/* ---------- ENGINE: pure functions, no DOM (tested on its own) ----------
+   Open web (illustration), the 1998 paper's form:
+     score(i) = (1 - d) + E(i) + d * sum over followed links j->i of score(j) / L(j)
+     E(i)  = assumed contribution from backlinks outside the drawn graph (an input)
+     L(j)  = every outgoing link on page j: the links drawn here plus its links to pages not drawn (an input)
+   Pure PageRank (normalized, uniform teleportation):
+     p(i) = (1 - d)/N + d * sum over followed links j->i of p(j) / L(j) + d * R / N
+     L(j)  = links drawn on page j
+     R     = mass of dangling pages (no drawn links) + the unpassed share of nofollow and discounted links
+   Teaching assumption in both modes: a nofollow or discounted link counts as one of the page's
+   outgoing links but passes nothing. In Pure mode its share returns to the random jump, so scores total 1. */
+var ENGINE = (function () {
+  function passes(e) { return e.rel === 'follow' && !e.disc; }
+  function index(nodes, edges) {
+    var by = { }, i, e, a, b;
+    for (i = 0; nodes.length > i; i++) by[ nodes[ i ].id ] = { node: nodes[ i ], drawn: 0, pass: 0, out: [ ], inc: [ ] };
+    for (i = 0; edges.length > i; i++) {
+      e = edges[ i ]; a = by[ e.s ]; b = by[ e.t ];
+      if (!a || !b || e.s === e.t) continue;
+      a.drawn++; a.out.push(e); b.inc.push(e);
+      if (passes(e)) a.pass++;
+    }
+    return by;
+  }
+  /* Open mode: L = links drawn here + links on the page to pages that are not drawn (node.off).
+     Adding a drawn link therefore adds one more link to the page and thins every other link on it. */
+  function divisorOf(rec, mode) {
+    if (mode === 'open') return Math.max(1, rec.drawn + Math.max(0, Math.round(+rec.node.off || 0)));
+    return rec.drawn;
+  }
+  function solve(nodes, edges, opts) {
+    var d = opts.d, mode = opts.mode, tol = opts.tol || 1e-13, maxIter = opts.maxIter || 10000;
+    var by = index(nodes, edges), N = nodes.length, ids = [ ], L = { }, i, k, it = 0, converged = false;
+    for (i = 0; N > i; i++) { ids.push(nodes[ i ].id); L[ nodes[ i ].id ] = divisorOf(by[ nodes[ i ].id ], mode); }
+    var res = { mode: mode, d: d, N: N, iters: 0, converged: true, score: { }, base: { }, ext: { }, visible: { }, redistributed: { }, L: L, by: by, total: 0, teleport: 0, dangling: 0, unpassed: 0, passedVisible: 0, leftGraph: 0 };
+    if (!N) return res;
+    var p = { }, nx, vis, diff, tot, R, dang, unp;
+    for (i = 0; N > i; i++) p[ ids[ i ] ] = mode === 'pure' ? 1 / N : (1 - d) + Math.max(0, +nodes[ i ].ext || 0);
+    for (it = 0; maxIter > it; it++) {
+      vis = { }; for (i = 0; N > i; i++) vis[ ids[ i ] ] = 0;
+      dang = 0; unp = 0;
+      for (i = 0; N > i; i++) {
+        var id = ids[ i ], rec = by[ id ], pj = p[ id ], Lj = L[ id ];
+        if (mode === 'pure' && rec.drawn === 0) { dang += pj; continue; }
+        for (k = 0; rec.out.length > k; k++) if (passes(rec.out[ k ])) vis[ rec.out[ k ].t ] += d * pj / Lj;
+        if (mode === 'pure') unp += pj * (rec.drawn - rec.pass) / Lj;
+      }
+      nx = { }; diff = 0; tot = 0;
+      R = mode === 'pure' ? (1 - d) / N + d * (dang + unp) / N : 0;
+      for (i = 0; N > i; i++) {
+        var nid = ids[ i ];
+        nx[ nid ] = mode === 'pure' ? R + vis[ nid ] : (1 - d) + Math.max(0, +nodes[ i ].ext || 0) + vis[ nid ];
+        diff += Math.abs(nx[ nid ] - p[ nid ]); tot += nx[ nid ];
+      }
+      p = nx;
+      if (tol * Math.max(1, tot) > diff) { converged = true; break; }
+      converged = false;
+    }
+    res.iters = it + 1; res.converged = converged;
+    /* final accounting pass on the converged scores */
+    vis = { }; for (i = 0; N > i; i++) vis[ ids[ i ] ] = 0;
+    dang = 0; unp = 0; var passedV = 0, left = 0;
+    for (i = 0; N > i; i++) {
+      var sid = ids[ i ], srec = by[ sid ], ps = p[ sid ], Ls = L[ sid ];
+      if (mode === 'pure' && srec.drawn === 0) { dang += ps; continue; }
+      for (k = 0; srec.out.length > k; k++) if (passes(srec.out[ k ])) { vis[ srec.out[ k ].t ] += d * ps / Ls; passedV += d * ps / Ls; }
+      if (mode === 'pure') unp += ps * (srec.drawn - srec.pass) / Ls;
+      else left += d * ps * (Ls - srec.pass) / Ls;
+    }
+    res.teleport = mode === 'pure' ? (1 - d) / N : (1 - d);
+    res.dangling = dang; res.unpassed = unp; res.passedVisible = passedV; res.leftGraph = left;
+    for (i = 0; N > i; i++) {
+      var q = ids[ i ];
+      res.score[ q ] = p[ q ];
+      res.visible[ q ] = vis[ q ];
+      res.base[ q ] = res.teleport;
+      res.ext[ q ] = mode === 'open' ? Math.max(0, +nodes[ i ].ext || 0) : 0;
+      res.redistributed[ q ] = mode === 'pure' ? d * (dang + unp) / N : 0;
+      res.total += p[ q ];
+    }
+    return res;
+  }
+  /* what one link from page s carries (or would carry, if followed) at the current scores */
+  function perLink(res, s) { var Ls = res.L[ s ]; return Ls ? res.d * res.score[ s ] / Ls : 0; }
+  function passed(res, e) { return passes(e) && res.by[ e.s ] && res.by[ e.t ] ? perLink(res, e.s) : 0; }
+  /* contributions arriving at page t, largest first */
+  function contributors(res, t) {
+    var rec = res.by[ t ], list = [ ], i;
+    if (!rec) return list;
+    for (i = 0; rec.inc.length > i; i++) list.push({ e: rec.inc[ i ], from: rec.inc[ i ].s, amount: passed(res, rec.inc[ i ]), would: perLink(res, rec.inc[ i ].s) });
+    list.sort(function (a, b) { return b.amount - a.amount; });
+    return list;
+  }
+  /* 1-based position within this graph, highest score first */
+  function positions(res) {
+    var ids = Object.keys(res.score).sort(function (a, b) { return res.score[ b ] - res.score[ a ]; }), pos = { }, i;
+    for (i = 0; ids.length > i; i++) pos[ ids[ i ] ] = i + 1;
+    return pos;
+  }
+  /* optional illustrative 0-10 scale: each point is worth B times the one below it.
+     0 is the score a page gets with nothing linking to it. */
+  function scale10(res, v, B) {
+    var floor = res.mode === 'pure' ? (1 - res.d) / Math.max(1, res.N) : (1 - res.d);
+    if (v > floor) return Math.min(10, Math.log(v / floor) / Math.log(B || 6));
+    return 0;
+  }
+  return { solve: solve, passes: passes, perLink: perLink, passed: passed, contributors: contributors, positions: positions, scale10: scale10, index: index };
+})();
+/* ---------- SCENARIOS: illustrative, page-level inputs (not measured data) ----------
+   node: [ id, name, kind, x, y, pr, off, traits ]
+     pr  = starting PR on the 0 to 10 scale: what the page gets from links that aren't drawn (Open web mode only)
+     off = links on the page that point to pages not drawn here (Open web mode only)
+     traits = footprints shown in the page details (PBN-style giveaways)
+   edge: [ from, to, rel ('f' followed, 'n' nofollow), tag ]   tag = how the link was placed (paid, hacked, spam)
+   World space is 1000 x 620. */
+var KINDS = {
+  big:     { c: '#4f8ff7', label: 'Large site page' },
+  wiki:    { c: '#7dd3fc', label: 'Reference page' },
+  edu:     { c: '#818cf8', label: 'University page' },
+  forum:   { c: '#a78bfa', label: 'Community page' },
+  blog:    { c: '#f472b6', label: 'Blog post' },
+  niche:   { c: '#34d399', label: 'Small site page' },
+  partner: { c: '#fb923c', label: 'Partner or vendor page' },
+  you:     { c: '#fde047', label: 'Your page' },
+  site:    { c: '#2dd4bf', label: 'Your site' },
+  util:    { c: '#64748b', label: 'Utility page' },
+  rival:   { c: '#cbd5e1', label: 'Competitor page' },
+  net:     { c: '#fb7185', label: 'Scheme page' },
+  page:    { c: '#38bdf8', label: 'New page' }
+};
+var FOOTPRINTS = {
+  host: 'Shared hosting block', ns: 'Same nameserver pair', ids: 'Same analytics or ad ID', only: 'Thin site, one target',
+  cluster: 'Dense link cluster', ring: 'Closed ring of sites', third: 'Third-party page on a host site',
+  paid: 'Paid placement, no rel=sponsored', hacked: 'Injected into a hacked page', spam: 'Mass-posted link'
+};
+var CHAPTERS = {
+  links:    { label: 'Search Manipulation', url: 'https://optimizationtheory.com/blackhat-terminal/search-manipulation.html' },
+  pbn:      { label: 'Private Blog Networks', url: 'https://optimizationtheory.com/blackhat-terminal/private-blog-networks.html' },
+  expired:  { label: 'Expired Domain Abuse', url: 'https://optimizationtheory.com/blackhat-terminal/expired-domain-abuse.html' },
+  parasite: { label: 'Parasite SEO', url: 'https://optimizationtheory.com/blackhat-terminal/parasite-seo.html' },
+  detect:   { label: 'Detection and Defense', url: 'https://optimizationtheory.com/blackhat-terminal/detection-defense.html' },
+  juice:    { label: 'Link Juice Lab', url: 'https://optimizationtheory.com/blackhat-terminal/link-juice-sim.html' },
+  cases:    { label: 'Case Studies', url: 'https://optimizationtheory.com/blackhat-terminal/case-studies.html' }
+};
+var SCENARIOS = [
+  {
+    id: 'start', name: 'First experiment', icon: 'spark', focus: 'you', tool: 'link',
+    title: 'First experiment: give YOUR PAGE its first link',
+    text: 'YOUR PAGE has no links pointing at it, so it sits at PR 0. Link the Industry blog post to YOUR PAGE and watch what that one link passes. Then try the PR 8 News homepage.',
+    guide: { s: 'blog', t: 'you' },
+    nodes: [
+      [ 'home', 'News homepage', 'big', 140, 120, 8, 118 ],
+      [ 'article', 'News article', 'big', 460, 90, 4, 28 ],
+      [ 'blog', 'Industry blog post', 'blog', 800, 170, 4, 10 ],
+      [ 'forum', 'Forum thread', 'forum', 450, 400, 3, 50 ],
+      [ 'small', 'Small blog post', 'niche', 140, 470, 1, 12 ],
+      [ 'you', 'YOUR PAGE', 'you', 810, 480, 0, 9 ]
+    ],
+    edges: [ [ 'home', 'article' ], [ 'article', 'blog' ], [ 'forum', 'article' ], [ 'small', 'forum' ], [ 'blog', 'forum' ] ],
+    steps: [
+      { title: 'Link the Industry blog post to YOUR PAGE', text: 'A PR 4 page with 12 links. One followed link from it.', do: 'link', s: 'blog', t: 'you' },
+      { title: 'Make that link nofollow', text: 'Same link, same page. See what YOUR PAGE keeps when the link stops passing value.', do: 'rel', s: 'blog', t: 'you', rel: 'nofollow' },
+      { title: 'Now get a link from the News homepage', text: 'PR 8, but 120 links share it. Guess the PR it gives YOUR PAGE before you click.', do: 'link', s: 'home', t: 'you' },
+      { title: 'Switch to Pure PageRank', text: 'The textbook math on just these 6 pages, where every score is a share of 100%.', do: 'mode', mode: 'pure' },
+      { title: 'Try the Playground', text: 'Three big sites and a natural web of smaller ones. Build links to YOUR PAGE from any of them.', do: 'scenario', id: 'play' }
+    ]
+  },
+  {
+    id: 'play', name: 'Playground', icon: 'flask', focus: 'you', tool: 'link',
+    title: 'Playground: build links to YOUR PAGE',
+    text: 'Three big sites (PR 7 to 8), a natural web of smaller pages, and YOUR PAGE with nothing pointing at it. Link from different pages and compare what each one passes. The Encyclopedia article’s outgoing links are nofollow, like most reference sites.',
+    nodes: [
+      [ 'home', 'News homepage', 'big', 110, 95, 8, 118 ],
+      [ 'wiki', 'Encyclopedia article', 'wiki', 470, 70, 7, 300 ],
+      [ 'uni', 'University page', 'edu', 860, 95, 7, 80 ],
+      [ 'article', 'News article', 'big', 260, 225, 4, 28 ],
+      [ 'mag', 'Trade magazine', 'partner', 690, 220, 5, 40 ],
+      [ 'blog', 'Industry blog post', 'blog', 500, 300, 4, 10 ],
+      [ 'forum', 'Forum thread', 'forum', 95, 360, 3, 50 ],
+      [ 'review', 'Review site page', 'partner', 880, 355, 4, 25 ],
+      [ 'small', 'Small blog post', 'niche', 300, 450, 1, 12 ],
+      [ 'dir', 'Local directory', 'niche', 90, 540, 3, 60 ],
+      [ 'hobby', 'Hobby blog', 'blog', 470, 545, 1, 8 ],
+      [ 'supplier', 'Supplier page', 'partner', 900, 540, 2, 15 ],
+      [ 'you', 'YOUR PAGE', 'you', 690, 470, 0, 9 ]
+    ],
+    edges: [
+      [ 'home', 'article' ], [ 'wiki', 'article', 'n' ], [ 'wiki', 'mag', 'n' ], [ 'uni', 'mag' ], [ 'article', 'blog' ], [ 'mag', 'blog' ],
+      [ 'forum', 'article' ], [ 'blog', 'small' ], [ 'small', 'forum' ], [ 'review', 'mag' ], [ 'dir', 'forum' ], [ 'hobby', 'small' ],
+      [ 'supplier', 'review' ], [ 'mag', 'review' ]
+    ],
+    steps: [
+      { title: 'Link the Industry blog post to YOUR PAGE', text: 'A solid mid-sized page with only 12 links.', do: 'link', s: 'blog', t: 'you' },
+      { title: 'Now link from the University page', text: 'PR 7 with 81 links. Lower than the News homepage, but fewer links share it.', do: 'link', s: 'uni', t: 'you' },
+      { title: 'Get a link from the Encyclopedia article', text: 'PR 7, but its links are nofollow. Watch what it passes in this model.', do: 'link', s: 'wiki', t: 'you', rel: 'nofollow' },
+      { title: 'Add a link from the News homepage', text: 'The biggest page here. See how far one PR 8 link moves YOUR PAGE.', do: 'link', s: 'home', t: 'you' }
+    ]
+  },
+  {
+    id: 'natural', name: 'Natural web', icon: 'globe', focus: 'you', tool: 'move',
+    title: 'Natural web: a normal site earning normal links',
+    text: 'A small site with a homepage, a blog post and YOUR PAGE (a service page). Outside mentions mostly land on the homepage and blog, and internal links carry that value to YOUR PAGE. The forum link is nofollow (ugc).',
+    nodes: [
+      [ 'article', 'News article', 'big', 140, 95, 4, 28 ],
+      [ 'blog', 'Industry blog post', 'blog', 500, 75, 4, 10 ],
+      [ 'forum', 'Forum thread', 'forum', 860, 110, 3, 50 ],
+      [ 'partner', 'Partner page', 'partner', 110, 330, 2, 6 ],
+      [ 'niche', 'Niche blog post', 'niche', 880, 330, 2, 9 ],
+      [ 'yhome', 'Your homepage', 'site', 360, 300, 1, 6 ],
+      [ 'ypost', 'Your blog post', 'site', 640, 300, 0, 5 ],
+      [ 'you', 'YOUR PAGE', 'you', 500, 505, 0, 6 ]
+    ],
+    edges: [
+      [ 'article', 'yhome' ], [ 'blog', 'ypost' ], [ 'forum', 'yhome', 'n' ], [ 'partner', 'yhome' ], [ 'niche', 'ypost' ], [ 'blog', 'niche' ],
+      [ 'niche', 'forum' ], [ 'yhome', 'you' ], [ 'yhome', 'ypost' ], [ 'ypost', 'you' ], [ 'ypost', 'yhome' ], [ 'you', 'yhome' ]
+    ],
+    steps: [
+      { title: 'Remove the homepage link to YOUR PAGE', text: 'See how much of YOUR PAGE’s PR arrives through your own internal links.', do: 'unlink', s: 'yhome', t: 'you' },
+      { title: 'Link the Industry blog post straight to YOUR PAGE', text: 'A direct mention instead of one that lands on your blog post.', do: 'link', s: 'blog', t: 'you' },
+      { title: 'Switch to Pure PageRank', text: 'Same graph, textbook math. Scores become shares of 100%.', do: 'mode', mode: 'pure' }
+    ]
+  },
+  {
+    id: 'sandbox', name: 'Sandbox', icon: 'cube', focus: 'you', tool: 'link',
+    title: 'Sandbox: build your own graph',
+    text: 'Three unlinked pages. Add pages with + Page, draw links with + Link, and set each page’s starting PR in Page details. Try a loop, a chain, a page with no links out.',
+    nodes: [
+      [ 'a', 'Page A', 'blog', 260, 170, 3, 5 ],
+      [ 'b', 'Page B', 'niche', 740, 170, 0, 5 ],
+      [ 'you', 'YOUR PAGE', 'you', 500, 450, 0, 5 ]
+    ],
+    edges: [ ],
+    steps: [
+      { title: 'Link Page A to Page B', text: 'Start a chain.', do: 'link', s: 'a', t: 'b' },
+      { title: 'Link Page B to YOUR PAGE', text: 'Value now travels two hops. Notice how much is left by the end.', do: 'link', s: 'b', t: 'you' },
+      { title: 'Close the loop: YOUR PAGE to Page A', text: 'A cycle sends value back around. The scores settle where they stop changing.', do: 'link', s: 'you', t: 'a' },
+      { title: 'Switch to Pure PageRank', text: 'Pure mode ignores starting PR. Every page starts equal.', do: 'mode', mode: 'pure' }
+    ]
+  },
+  {
+    id: 'nofollow', name: 'Followed vs. nofollow', icon: 'link', focus: 'you', tool: 'move', util: [ 'login', 'terms', 'privacy', 'cart', 'careers', 'contact', 'sitemap' ],
+    title: 'Followed vs. nofollow links',
+    text: 'Your homepage links to YOUR PAGE (a product page), two other money pages and seven utility pages. Nofollow the utility links, then try removing them, and compare what YOUR PAGE gets each time.',
+    nodes: [
+      [ 'mag', 'Magazine review', 'partner', 120, 90, 5, 30 ],
+      [ 'home', 'Your homepage', 'site', 330, 230, 1, 0 ],
+      [ 'you', 'YOUR PAGE', 'you', 110, 420, 0, 9 ],
+      [ 'svc', 'Services', 'site', 300, 520, 0, 9 ],
+      [ 'price', 'Pricing', 'site', 500, 470, 0, 9 ],
+      [ 'login', 'Login', 'util', 640, 70, 0, 9 ],
+      [ 'terms', 'Terms', 'util', 840, 80, 0, 9 ],
+      [ 'privacy', 'Privacy', 'util', 900, 225, 0, 9 ],
+      [ 'cart', 'Cart', 'util', 700, 230, 0, 9 ],
+      [ 'careers', 'Careers', 'util', 880, 375, 0, 9 ],
+      [ 'contact', 'Contact', 'util', 700, 400, 0, 9 ],
+      [ 'sitemap', 'Sitemap', 'util', 830, 525, 0, 9 ]
+    ],
+    edges: [
+      [ 'mag', 'home' ], [ 'home', 'you' ], [ 'home', 'svc' ], [ 'home', 'price' ], [ 'you', 'home' ], [ 'svc', 'home' ], [ 'price', 'home' ],
+      [ 'home', 'login' ], [ 'home', 'terms' ], [ 'home', 'privacy' ], [ 'home', 'cart' ], [ 'home', 'careers' ], [ 'home', 'contact' ], [ 'home', 'sitemap' ],
+      [ 'login', 'home' ], [ 'terms', 'home' ], [ 'privacy', 'home' ], [ 'cart', 'home' ], [ 'careers', 'home' ], [ 'contact', 'home' ], [ 'sitemap', 'home' ]
+    ],
+    actions: [
+      { id: 'nf', label: 'Nofollow the 7 utility links' },
+      { id: 'rm', label: 'Remove the 7 utility links' },
+      { id: 'restore', label: 'Make them followed again' }
+    ],
+    steps: [
+      { title: 'Nofollow the 7 utility links', text: 'The old sculpting idea: hide the junk pages and push more PR to the money pages. Does it work here?', do: 'action', id: 'nf' },
+      { title: 'Now remove the 7 utility links instead', text: 'Fewer links on the page means each remaining link carries more.', do: 'action', id: 'rm' },
+      { title: 'Switch to Pure PageRank', text: 'In Pure mode an unpassed share goes back to the random jump, so every page moves a little.', do: 'mode', mode: 'pure' }
+    ],
+    chapters: [ 'links' ]
+  },
+  {
+    id: 'pbn', name: 'PBN', icon: 'layers', focus: 'you', tool: 'move',
+    title: 'Private blog network (PBN)',
+    text: 'Five sites built on expired domains (PR 4 to 5 from their old backlinks) all link to YOUR PAGE. A Competitor page earned its PR 3.5 the normal way. The PBN lifts YOUR PAGE well above it. Hover the PBN sites to see the footprints that tie them together.',
+    nodes: [
+      [ 'p1', 'PBN site A', 'net', 120, 90, 5, 4, [ 'host', 'ns' ] ],
+      [ 'p2', 'PBN site B', 'net', 370, 70, 4.5, 4, [ 'host', 'ids' ] ],
+      [ 'p3', 'PBN site C', 'net', 630, 70, 5, 3, [ 'host', 'only' ] ],
+      [ 'p4', 'PBN site D', 'net', 880, 90, 4, 4, [ 'ns', 'ids' ] ],
+      [ 'p5', 'PBN site E', 'net', 860, 330, 4.5, 6 ],
+      [ 'local', 'Local news page', 'big', 140, 330, 4, 20 ],
+      [ 'you', 'YOUR PAGE', 'you', 500, 320, 0, 9 ],
+      [ 'offer', 'Your offer page', 'site', 330, 520, 0, 9 ],
+      [ 'rival', 'Competitor page', 'rival', 700, 520, 3.5, 10 ]
+    ],
+    edges: [ [ 'p1', 'you' ], [ 'p2', 'you' ], [ 'p3', 'you' ], [ 'p4', 'you' ], [ 'p5', 'you' ], [ 'p5', 'local' ], [ 'local', 'you' ], [ 'you', 'offer' ], [ 'offer', 'you' ] ],
+    steps: [
+      { title: 'Remove PBN site C’s link', text: 'C has the fewest other links, so its link carries the most. See how much of YOUR PAGE’s PR it was holding up.', do: 'unlink', s: 'p3', t: 'you' },
+      { title: 'Switch to Pure PageRank', text: 'Pure mode drops the expired domains’ outside PR. See what the network is worth on its own.', do: 'mode', mode: 'pure' },
+      { title: 'Try the Link farm', text: 'Same idea, different shape: pages that all link to each other, fed by bought links.', do: 'scenario', id: 'farm' }
+    ],
+    pureNote: 'Pure mode ignores starting PR, so these expired-domain sites have nothing extra to pass. That’s the whole point of buying expired domains: switch back to Open web to see it.',
+    chapters: [ 'pbn', 'expired', 'detect' ]
+  },
+  {
+    id: 'farm', name: 'Link farm', icon: 'farm', focus: 'you', tool: 'move',
+    title: 'Link farm fed by bought links',
+    text: 'Six farm pages all link to each other and to YOUR PAGE. Paid posts on bigger sites and one hacked university page feed the farm, and the farm passes that PR around and into YOUR PAGE, lifting it past the Competitor page.',
+    nodes: [
+      [ 'news', 'News sponsored post', 'big', 120, 80, 5.5, 8 ],
+      [ 'uni', 'Hacked university page', 'edu', 500, 55, 5, 6 ],
+      [ 'mag', 'Magazine paid post', 'partner', 880, 80, 4.5, 5 ],
+      [ 'f0', 'Farm page 1', 'net', 330, 215, 0, 0, [ 'cluster' ] ],
+      [ 'f1', 'Farm page 2', 'net', 670, 215, 0, 0, [ 'cluster' ] ],
+      [ 'f2', 'Farm page 3', 'net', 840, 330, 0, 0, [ 'cluster' ] ],
+      [ 'f3', 'Farm page 4', 'net', 650, 430, 0, 0, [ 'cluster' ] ],
+      [ 'f4', 'Farm page 5', 'net', 350, 430, 0, 0, [ 'cluster' ] ],
+      [ 'f5', 'Farm page 6', 'net', 160, 330, 0, 0, [ 'cluster' ] ],
+      [ 'you', 'YOUR PAGE', 'you', 500, 320, 0, 9 ],
+      [ 'offer', 'Your offer page', 'site', 300, 560, 0, 9 ],
+      [ 'rival', 'Competitor page', 'rival', 720, 560, 3.5, 10 ]
+    ],
+    edges: (function () {
+      var e = [ ], i, j;
+      for (i = 0; 6 > i; i++) { for (j = 0; 6 > j; j++) if (i !== j) e.push([ 'f' + i, 'f' + j ]); e.push([ 'f' + i, 'you' ]); }
+      e.push([ 'news', 'f4', 'f', 'paid' ], [ 'news', 'f5', 'f', 'paid' ], [ 'uni', 'f3', 'f', 'hacked' ], [ 'mag', 'f1', 'f', 'paid' ], [ 'mag', 'f2', 'f', 'paid' ], [ 'you', 'offer' ], [ 'offer', 'you' ]);
+      return e;
+    })(),
+    steps: [
+      { title: 'Remove one paid link feeding the farm', text: 'Take out the News sponsored post’s link to Farm page 5 and watch the whole farm, and YOUR PAGE, lose PR.', do: 'unlink', s: 'news', t: 'f4' },
+      { title: 'Switch to Pure PageRank', text: 'Without the bought outside PR, the farm is just pages passing the same small shares around.', do: 'mode', mode: 'pure' },
+      { title: 'Try the Link wheel', text: 'Fewer links between pages, arranged in a loop.', do: 'scenario', id: 'wheel' }
+    ],
+    pureNote: 'Pure mode ignores starting PR, so the paid posts feeding the farm have nothing extra to pass. Switch back to Open web to see why people buy them.',
+    chapters: [ 'links', 'detect' ]
+  },
+  {
+    id: 'wheel', name: 'Link wheel', icon: 'wheel', focus: 'you', tool: 'move',
+    title: 'Link wheel with tier-2 links',
+    text: 'Six throwaway blogs link in a ring and each one links to YOUR PAGE. Tier-2 links (a paid press release, directory listings, comment spam) feed the ring from outside, and the ring lifts YOUR PAGE past the Competitor page.',
+    nodes: [
+      [ 'pr', 'Press release page', 'partner', 140, 75, 5.5, 10 ],
+      [ 'dir', 'Article directory', 'niche', 860, 75, 4.5, 15 ],
+      [ 'com', 'Spam comments', 'forum', 500, 570, 3.5, 40 ],
+      [ 'w0', 'Wheel blog 1', 'net', 500, 95, 0, 0, [ 'ring' ] ],
+      [ 'w1', 'Wheel blog 2', 'net', 760, 215, 0, 0, [ 'ring' ] ],
+      [ 'w2', 'Wheel blog 3', 'net', 760, 425, 0, 0, [ 'ring' ] ],
+      [ 'w3', 'Wheel blog 4', 'net', 500, 460, 0, 0, [ 'ring' ] ],
+      [ 'w4', 'Wheel blog 5', 'net', 240, 425, 0, 0, [ 'ring' ] ],
+      [ 'w5', 'Wheel blog 6', 'net', 240, 215, 0, 0, [ 'ring' ] ],
+      [ 'you', 'YOUR PAGE', 'you', 500, 280, 0, 9 ],
+      [ 'offer', 'Your offer page', 'site', 110, 560, 0, 9 ],
+      [ 'rival', 'Competitor page', 'rival', 890, 560, 3.5, 10 ]
+    ],
+    edges: (function () {
+      var e = [ ], i;
+      for (i = 0; 6 > i; i++) e.push([ 'w' + i, 'w' + ((i + 1) % 6) ], [ 'w' + i, 'you' ]);
+      e.push([ 'pr', 'w5', 'f', 'paid' ], [ 'pr', 'w0', 'f', 'paid' ], [ 'dir', 'w0', 'f', 'spam' ], [ 'dir', 'w1', 'f', 'spam' ], [ 'com', 'w3', 'f', 'spam' ], [ 'com', 'w4', 'f', 'spam' ], [ 'you', 'offer' ], [ 'offer', 'you' ]);
+      return e;
+    })(),
+    steps: [
+      { title: 'Remove the press release link to Wheel blog 1', text: 'The strongest tier-2 link. See how much of the lift depends on it.', do: 'unlink', s: 'pr', t: 'w0' },
+      { title: 'Try the Parasite page', text: 'A different trick: renting space on a big site instead of building your own.', do: 'scenario', id: 'parasite' }
+    ],
+    pureNote: 'Pure mode ignores starting PR, so the tier-2 pages have nothing extra to pass. Switch back to Open web to see the wheel work.',
+    chapters: [ 'links', 'detect' ]
+  },
+  {
+    id: 'parasite', name: 'Parasite page', icon: 'page', focus: 'para', tool: 'move',
+    title: 'Parasite page on a big site',
+    text: 'A third party rents a coupon page inside a PR 8 news site. It gets the same internal links as the site’s own sections, so it inherits the same PR, and its link lifts YOUR PAGE past the Competitor page.',
+    nodes: [
+      [ 'host', 'News site homepage', 'big', 500, 90, 8, 150 ],
+      [ 'news', 'News section', 'big', 180, 230, 0, 40 ],
+      [ 'rev', 'Reviews section', 'big', 820, 230, 0, 40 ],
+      [ 'para', 'Coupon page (3rd party)', 'net', 500, 330, 0, 3, [ 'third' ] ],
+      [ 'you', 'YOUR PAGE', 'you', 330, 520, 0, 9 ],
+      [ 'offer', 'Your offer page', 'site', 110, 520, 0, 9 ],
+      [ 'rival', 'Competitor page', 'rival', 800, 520, 3.5, 10 ]
+    ],
+    edges: [ [ 'host', 'news' ], [ 'host', 'rev' ], [ 'host', 'para' ], [ 'news', 'host' ], [ 'rev', 'host' ], [ 'para', 'host' ], [ 'para', 'you', 'f', 'paid' ], [ 'you', 'offer' ], [ 'offer', 'you' ] ],
+    actions: [
+      { id: 'manual', label: 'Apply a site reputation manual action' }
+    ],
+    steps: [
+      { title: 'Apply a site reputation manual action', text: 'This spam policy targets the page itself. Watch what changes and what doesn’t.', do: 'action', id: 'manual' },
+      { title: 'Remove the coupon page’s link to YOUR PAGE', text: 'See how much of YOUR PAGE’s PR came from that one rented page.', do: 'unlink', s: 'para', t: 'you' }
+    ],
+    chapters: [ 'parasite', 'cases' ]
+  }
+];
+/* ---------- APP: UI, canvas, results, sharing ---------- */
+var SCRIPT_EL = document.currentScript;
+function boot() {
+  var root = null;
+  if (SCRIPT_EL && SCRIPT_EL.closest) root = SCRIPT_EL.closest('.ots');
+  if (!root) root = document.querySelector('.ots');
+  if (!root || root.getAttribute('data-ready')) return;
+  root.setAttribute('data-ready', '1');
+  /* ---------- helpers ---------- */
+  function $(sel) { return root.querySelector(sel); }
+  function $$(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/\u003c/g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function each(list, fn) { for (var i = 0; list.length > i; i++) fn(list[ i ], i); }
+  function icon(name) { return ICONS[ name ] || ''; }
+  function ordinal(n) {
+    var s = 'th', m = n % 100;
+    if (m > 10 && 14 > m) s = 'th';
+    else if (n % 10 === 1) s = 'st';
+    else if (n % 10 === 2) s = 'nd';
+    else if (n % 10 === 3) s = 'rd';
+    return n + s;
+  }
+  var mqReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  var mqCoarse = window.matchMedia ? window.matchMedia('(pointer: coarse)') : null;
+  function reduced() { return !!(mqReduce && mqReduce.matches); }
+  function coarse() { return !!(mqCoarse && mqCoarse.matches); }
+  /* ---------- state ---------- */
+  var S = {
+    sc: null, nodes: [ ], edges: [ ], mode: 'open', d: 0.85, raw: false, tool: 'link', pending: null, sel: null, hover: null,
+    acts: { }, res: null, pos: null, undo: [ ], done: { }, paused: reduced(), visible: true,
+    last: null, actions: 0, counter: 0, launched: false, viewed: false, fresh: true
+  };
+  var SC_BY = { };
+  each(SCENARIOS, function (s) { SC_BY[ s.id ] = s; });
+  var NEXT_SC = { start: 'play', play: 'nofollow', natural: 'sandbox', sandbox: 'pbn', nofollow: 'pbn', pbn: 'farm', farm: 'wheel', wheel: 'parasite', parasite: 'natural' };
+  var BASE = 6;
+  function node(id) { for (var i = 0; S.nodes.length > i; i++) if (S.nodes[ i ].id === id) return S.nodes[ i ]; return null; }
+  function edge(s, t) { for (var i = 0; S.edges.length > i; i++) if (S.edges[ i ].s === s && S.edges[ i ].t === t) return S.edges[ i ]; return null; }
+  function nameOf(id) { var n = node(id); return n ? n.name : id; }
+  function colorOf(n) { return (KINDS[ n.kind ] || KINDS.page).c; }
+  function focusId() {
+    var f = S.sc && S.sc.focus;
+    if (f && node(f)) return f;
+    if (node('you')) return 'you';
+    return S.nodes.length ? topNode() : null;
+  }
+  function topNode() { var best = null; each(S.nodes, function (n) { if (!best || S.res.score[ n.id ] > S.res.score[ best ]) best = n.id; }); return best; }
+  function fpLabel(t) { return FOOTPRINTS[ t ] || t; }
+  /* ---------- tracking ---------- */
+  function device() {
+    var w = window.innerWidth || 1200;
+    if (coarse() && 768 > w) return 'mobile';
+    if (coarse() && 1100 > w) return 'tablet';
+    return 768 > w ? 'mobile' : 'desktop';
+  }
+  function source() {
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get('utm_source')) return q.get('utm_source');
+      if (document.referrer) { var h = new URL(document.referrer).hostname; if (h !== location.hostname) return h; return 'internal'; }
+    } catch (x) { }
+    return 'direct';
+  }
+  var SRC = source();
+  function track(name, extra) {
+    var d = { event: 'otsim_' + name, sim_scenario: S.sc ? S.sc.id : '', sim_mode: S.mode, sim_device: device(), sim_source: SRC };
+    if (extra) for (var k in extra) if (Object.prototype.hasOwnProperty.call(extra, k)) d[ k ] = extra[ k ];
+    try { window.dataLayer = window.dataLayer || [ ]; window.dataLayer.push(d); } catch (x) { }
+    try { if (typeof window.gtag === 'function') window.gtag('event', d.event, d); } catch (x) { }
+    try { root.dispatchEvent(new CustomEvent('otsim:track', { detail: d, bubbles: true })); } catch (x) { }
+  }
+  function launched(how) { if (S.launched) return; S.launched = true; track('launch', { sim_how: how }); }
+  /* ---------- model ---------- */
+  /* Starting PR is the input. It becomes the raw value from links that aren't drawn:
+     a page with starting PR p and no drawn links scores (1 - d) x 6^p, so E = (1 - d) x (6^p - 1). */
+  function compute() {
+    var f = 1 - S.d;
+    each(S.nodes, function (n) { n.ext = f * (Math.pow(BASE, clamp(+n.pr || 0, 0, 10)) - 1); });
+    S.res = ENGINE.solve(S.nodes, S.edges, { d: S.d, mode: S.mode });
+    S.pos = positions(S.res);
+  }
+  function positions(res) {
+    var pos = { }, ids = Object.keys(res.score);
+    each(ids, function (a) {
+      var n = 1;
+      each(ids, function (b) { if (res.score[ b ] > res.score[ a ] + 1e-9 * Math.max(1, res.score[ a ])) n++; });
+      pos[ a ] = n;
+    });
+    return pos;
+  }
+  function tied(pos, id) { var c = 0; for (var k in pos) if (pos[ k ] === pos[ id ]) c++; return c > 1; }
+  function posText(pos, id, n) { if (!pos || !(id in pos)) return 'not in graph'; return (tied(pos, id) ? 'tied ' : '') + ordinal(pos[ id ]) + ' of ' + n; }
+  function prOf(res, v) { return ENGINE.scale10(res, v, BASE); }
+  function rawF(v) {
+    if (v == null || isNaN(v)) return '0';
+    var a = Math.abs(v);
+    if (a >= 1000) return Math.round(v).toLocaleString('en-US');
+    if (a >= 100) return v.toFixed(1);
+    if (a >= 10) return v.toFixed(2);
+    return v.toFixed(3);
+  }
+  function shareF(v) { var p = v * 100; return (p >= 10 ? p.toFixed(1) : p.toFixed(2)) + '%'; }
+  /* numbers used inside formulas: raw scores in Open web, shares in Pure */
+  function num(v) { return S.mode === 'pure' ? shareF(v) : rawF(v); }
+  /* the headline value: PR on the 0 to 10 scale in Open web, share of 100% in Pure */
+  function val(v, res) { res = res || S.res; return res.mode === 'pure' ? shareF(v) : 'PR ' + prOf(res, v).toFixed(1); }
+  function fmtL(v) { return S.mode === 'pure' ? shareF(v) : 'PR ' + prOf(S.res, v).toFixed(1) + (S.raw ? '  ' + rawF(v) : ''); }
+  function deltaText(r) {
+    if (S.mode === 'pure') { var dp = (r.after - r.before) * 100; return (dp >= 0 ? '+' : '−') + Math.abs(dp).toFixed(2) + ' pts'; }
+    var dv = prOf(S.res, r.after) - prOf(r.res0 || S.res, r.before);
+    return (dv >= 0 ? '+' : '−') + Math.abs(dv).toFixed(1);
+  }
+  function deltaSign(r) {
+    if (S.mode === 'pure') { var dp = (r.after - r.before) * 100; return Math.abs(dp) >= 0.005 ? (dp > 0 ? 1 : -1) : 0; }
+    var dv = prOf(S.res, r.after) - prOf(r.res0 || S.res, r.before);
+    if (Math.abs(dv) >= 0.05) return dv > 0 ? 1 : -1;
+    var draw = r.after - r.before;
+    return Math.abs(draw) > 1e-6 * Math.max(1, Math.abs(r.before)) ? (draw > 0 ? 2 : -2) : 0;
+  }
+  function signed(v) { return (v >= 0 ? '+' : '−') + num(Math.abs(v)); }
+  /* ---------- scenarios ---------- */
+  function buildNode(a) { return { id: a[ 0 ], name: a[ 1 ], kind: a[ 2 ], x: a[ 3 ], y: a[ 4 ], pr: a[ 5 ] || 0, ext: 0, off: a[ 6 ] || 0, traits: (a[ 7 ] || [ ]).slice(), flag: '' }; }
+  function buildEdge(a) { return { s: a[ 0 ], t: a[ 1 ], rel: a[ 2 ] === 'n' ? 'nofollow' : 'follow', disc: '', tag: a[ 3 ] || '' }; }
+  function loadScenario(id, opts) {
+    opts = opts || { };
+    var sc = SC_BY[ id ] || SCENARIOS[ 0 ];
+    S.sc = sc;
+    S.nodes = sc.nodes.map(buildNode);
+    S.edges = sc.edges.map(buildEdge);
+    S.acts = { }; S.undo = [ ]; S.pending = null; S.sel = null; S.hover = null; S.last = null; S.fresh = true;
+    setTool(sc.tool || 'move', true);
+    compute();
+    markDone();
+    fit();
+    renderAll();
+    renderResultEmpty();
+    status(opts.msg || ('Loaded: ' + sc.name));
+    if (opts.user) { launched('scenario'); track('scenario', { sim_to: sc.id }); }
+    if (opts.scroll) ensureStageVisible();
+  }
+  /* ---------- steps (next experiment) ---------- */
+  function stepMet(st) {
+    var e;
+    if (st.do === 'link') { e = edge(st.s, st.t); return !!e && e.rel === (st.rel || 'follow'); }
+    if (st.do === 'unlink') return !edge(st.s, st.t) && !!node(st.s) && !!node(st.t);
+    if (st.do === 'rel') { e = edge(st.s, st.t); return !!e && e.rel === st.rel; }
+    if (st.do === 'mode') return S.mode === st.mode;
+    if (st.do === 'action') return !!S.acts[ st.id ];
+    return false;
+  }
+  function markDone() {
+    if (!S.sc || !S.sc.steps) return;
+    each(S.sc.steps, function (st, i) { if (stepMet(st)) S.done[ S.sc.id + ':' + i ] = true; });
+  }
+  function nextStep() {
+    var sc = S.sc, i, st;
+    if (sc && sc.steps) for (i = 0; sc.steps.length > i; i++) {
+      st = sc.steps[ i ];
+      if (S.done[ sc.id + ':' + i ]) continue;
+      if (st.do === 'link' || st.do === 'rel' || st.do === 'unlink') { if (!node(st.s) || !node(st.t)) continue; }
+      if ((st.do === 'rel' || st.do === 'unlink') && !edge(st.s, st.t)) continue;
+      return st;
+    }
+    var to = SC_BY[ NEXT_SC[ sc ? sc.id : 'start' ] ];
+    if (!to) return null;
+    return { title: 'Try the ' + to.name + ' scenario', text: to.title, do: 'scenario', id: to.id };
+  }
+  function runStep(st) {
+    if (!st) return;
+    track('next_step', { sim_step: st.do + ':' + (st.id || st.mode || (st.s + '>' + st.t)) });
+    if (st.do === 'link') {
+      var e = edge(st.s, st.t);
+      if (e && e.rel !== (st.rel || 'follow')) setRel(st.s, st.t, st.rel || 'follow');
+      else if (!e) addLink(st.s, st.t, st.rel || 'follow');
+    } else if (st.do === 'unlink') removeLink(st.s, st.t);
+    else if (st.do === 'rel') setRel(st.s, st.t, st.rel);
+    else if (st.do === 'mode') setMode(st.mode);
+    else if (st.do === 'action') runAction(st.id);
+    else if (st.do === 'scenario') { loadScenario(st.id, { user: true }); ensureStageVisible(true); return; }
+    ensureStageVisible();
+  }
+  function guide() {
+    var st = nextStep();
+    if (st && (st.do === 'link' || st.do === 'unlink' || st.do === 'rel') && node(st.s) && node(st.t)) return st;
+    return null;
+  }
+  /* ---------- mutations ---------- */
+  function snap() {
+    return { nodes: S.nodes.map(function (n) { return { id: n.id, name: n.name, kind: n.kind, x: n.x, y: n.y, pr: n.pr, ext: n.ext, off: n.off, traits: n.traits.slice(), flag: n.flag }; }),
+      edges: S.edges.map(function (e) { return { s: e.s, t: e.t, rel: e.rel, disc: e.disc, tag: e.tag }; }), acts: JSON.parse(JSON.stringify(S.acts)), mode: S.mode, d: S.d };
+  }
+  function restore(o) { S.nodes = o.nodes; S.edges = o.edges; S.acts = o.acts; S.mode = o.mode; S.d = o.d; }
+  function change(label, fn, explainFn) {
+    var before = { res: S.res, pos: S.pos, n: S.nodes.length, mode: S.mode, d: S.d };
+    S.undo.push({ label: label, state: snap() });
+    if (S.undo.length > 60) S.undo.shift();
+    fn();
+    compute();
+    markDone();
+    S.fresh = false;
+    var r = explainFn ? explainFn(before) : explainGeneric(label, before);
+    S.last = r;
+    hideTip();
+    renderAll();
+    renderResult(r);
+    status(r.status || label);
+    S.actions++;
+    launched('action');
+    if (S.actions === 1) track('first_experiment', { sim_action: r.kind || label });
+    else track('action', { sim_action: r.kind || label, sim_count: S.actions });
+  }
+  function addLink(s, t, rel) {
+    if (s === t || !node(s) || !node(t)) return false;
+    var ex = edge(s, t);
+    if (ex) { if (ex.rel !== rel) setRel(s, t, rel); else status('That link already exists'); return false; }
+    change('Link added', function () { S.edges.push({ s: s, t: t, rel: rel || 'follow', disc: '', tag: '' }); S.sel = t; }, function (b) { return explainLink(rel === 'nofollow' ? 'add-nf' : 'add', s, t, b); });
+    return true;
+  }
+  function removeLink(s, t) {
+    var ex = edge(s, t);
+    if (!ex) return false;
+    var was = ex.rel === 'follow' ? 'rm' : 'rm-nf';
+    change('Link removed', function () { S.edges = S.edges.filter(function (e) { return !(e.s === s && e.t === t); }); S.sel = t; }, function (b) { return explainLink(was, s, t, b); });
+    return true;
+  }
+  function setRel(s, t, rel) {
+    var ex = edge(s, t);
+    if (!ex || ex.rel === rel) return false;
+    change(rel === 'nofollow' ? 'Changed to nofollow' : 'Changed to followed', function () { edge(s, t).rel = rel; S.sel = t; }, function (b) { return explainLink(rel === 'nofollow' ? 'to-nf' : 'to-f', s, t, b); });
+    return true;
+  }
+  function removeNode(id) {
+    var n = node(id);
+    if (!n) return;
+    if (S.nodes.length === 1) { status('Keep at least one page'); return; }
+    change('Page removed', function () {
+      S.nodes = S.nodes.filter(function (x) { return x.id !== id; });
+      S.edges = S.edges.filter(function (e) { return e.s !== id && e.t !== id; });
+      if (S.sel === id) S.sel = null;
+      if (S.pending === id) S.pending = null;
+    }, function (b) { return explainPage('rm', n, b); });
+  }
+  function addNode() {
+    if (S.nodes.length >= 40) { status('This sandbox holds up to 40 pages'); return; }
+    S.counter++;
+    var id = 'n' + Date.now().toString(36) + S.counter, spot = freeSpot(), k = 1, nm;
+    do { nm = 'New page ' + k; k++; } while (S.nodes.some(function (x) { return x.name === nm; }));
+    var n = { id: id, name: nm, kind: 'page', x: spot[ 0 ], y: spot[ 1 ], pr: 0, ext: 0, off: 5, traits: [ ], flag: '' };
+    change('Page added', function () { S.nodes.push(n); S.sel = id; }, function (b) { return explainPage('add', n, b); });
+    if (!coarse()) { var inp = $('.ots-pg-name'); if (inp) { try { inp.focus({ preventScroll: true }); inp.select(); } catch (x) { } } }
+  }
+  function editNode(id, field, val) {
+    var n = node(id);
+    if (!n) return;
+    if (field === 'name') {
+      val = String(val || '').replace(/\s+/g, ' ').trim().slice(0, 40);
+      if (!val || val === n.name) { renderPage(); return; }
+      S.undo.push({ label: 'Renamed', state: snap() });
+      n.name = val; renderAll(); status('Renamed to ' + val);
+      if (S.last) renderResult(S.last);
+      return;
+    }
+    var v = parseFloat(val);
+    if (isNaN(v)) { renderPage(); return; }
+    v = field === 'off' ? clamp(Math.round(v), 0, 10000) : clamp(Math.round(v * 10) / 10, 0, 10);
+    if (v === n[ field ]) { renderPage(); return; }
+    var old = n[ field ];
+    change('Assumption changed', function () { node(id)[ field ] = v; }, function (b) { return explainAssume(id, field, old, v, b); });
+  }
+  function setMode(m) {
+    if (m === S.mode) return;
+    change(m === 'pure' ? 'Switched to Pure PageRank' : 'Switched to Open web', function () { S.mode = m; }, function (b) { return explainMode(b); });
+  }
+  function setDamp(d) {
+    d = clamp(Math.round(d * 100) / 100, 0.5, 0.95);
+    if (d === S.d) return;
+    change('Damping changed', function () { S.d = d; }, function (b) { return explainDamp(b); });
+  }
+  function runAction(id) {
+    var sc = S.sc;
+    if (id === 'manual') {
+      var p = node('para');
+      if (!p) return;
+      var on = p.flag !== 'demoted';
+      change(on ? 'Site reputation action' : 'Site reputation action lifted', function () { node('para').flag = on ? 'demoted' : ''; S.acts.manual = on; }, function (b) { return explainManual(on, b); });
+      return;
+    }
+    if (sc.util) {
+      var util = sc.util.filter(function (u) { return !!node(u); });
+      change(id === 'nf' ? 'Utility links nofollowed' : id === 'rm' ? 'Utility links removed' : 'Utility links followed', function () {
+        each(util, function (u) {
+          var e = edge('home', u);
+          if (id === 'rm') { S.edges = S.edges.filter(function (x) { return !(x.s === 'home' && x.t === u); }); return; }
+          if (!e) { e = { s: 'home', t: u, rel: 'follow', disc: '', tag: '' }; S.edges.push(e); }
+          e.rel = id === 'nf' ? 'nofollow' : 'follow';
+        });
+        S.acts[ id ] = true;
+      }, function (b) { return explainBulk(id, 'home', b); });
+    }
+  }
+  function undo() {
+    var u = S.undo.pop();
+    if (!u) { status('Nothing to undo'); return; }
+    var before = { res: S.res, pos: S.pos, n: S.nodes.length, mode: S.mode, d: S.d };
+    restore(u.state);
+    S.pending = null;
+    if (S.sel && !node(S.sel)) S.sel = null;
+    compute();
+    var r = explainGeneric('Undid: ' + u.label, before);
+    S.last = r;
+    renderAll(); renderResult(r); status('Undid: ' + u.label);
+    track('undo');
+  }
+  /* ---------- explanations ---------- */
+  function linksPhrase(res, id) {
+    var rec = res.by[ id ], n = node(id), L = res.L[ id ] || 0;
+    if (!rec) return '';
+    if (res.mode === 'open') {
+      var off = Math.max(0, Math.round(+n.off || 0));
+      return L + ' link' + (L === 1 ? '' : 's') + ' (' + rec.drawn + ' drawn here, ' + off + ' to pages not drawn)';
+    }
+    return L + ' link' + (L === 1 ? '' : 's') + ' drawn here';
+  }
+  function biggestMove(b, skip, sign) {
+    var best = null, bv = 0;
+    each(S.nodes, function (n) {
+      if (skip.indexOf(n.id) >= 0 || !(n.id in b.res.score)) return;
+      var dv = (S.res.score[ n.id ] - b.res.score[ n.id ]) / Math.max(1e-12, Math.abs(b.res.score[ n.id ]));
+      if (sign * dv > bv + 1e-9) { bv = sign * dv; best = n.id; }
+    });
+    return best;
+  }
+  function both(v, res) { res = res || S.res; return res.mode === 'pure' ? shareF(v) : 'PR ' + prOf(res, v).toFixed(1) + ' (raw ' + rawF(v) + ')'; }
+  function base(focus, b, title, kind) {
+    var n0 = b.res && focus in b.res.score ? b.res.score[ focus ] : null;
+    return { kind: kind, title: title, focus: focus, fname: nameOf(focus), res0: b.res, before: n0, after: S.res.score[ focus ], p0: b.pos ? posText(b.pos, focus, b.n) : '', p1: posText(S.pos, focus, S.nodes.length), why: [ ], list: [ ] };
+  }
+  function explainLink(kind, s, t, b) {
+    var titles = { add: 'Link added', 'add-nf': 'Nofollow link added', rm: 'Link removed', 'rm-nf': 'Link removed', 'to-nf': 'Link changed to nofollow', 'to-f': 'Link changed to followed' };
+    var r = base(t, b, titles[ kind ] + ': ' + nameOf(s) + ' → ' + nameOf(t), kind);
+    var r0 = b.res, r1 = S.res, d = S.d, S0 = r0.score[ s ], S1 = r1.score[ s ], L0 = r0.L[ s ], L1 = r1.L[ s ];
+    var per0 = L0 ? d * S0 / L0 : 0, per1 = L1 ? d * S1 / L1 : 0, open = S.mode === 'open';
+    var sn = '\u003cb>' + esc(nameOf(s)) + '\u003c/b>', tn = '\u003cb>' + esc(nameOf(t)) + '\u003c/b>';
+    var dT = r1.score[ t ] - r0.score[ t ], direct = 0, others = 0;
+    var unit = open ? ' raw' : '';
+    each(S.edges, function (e) { if (e.s === s && e.t !== t && ENGINE.passes(e)) others++; });
+    if (kind === 'add' || kind === 'to-f') {
+      direct = per1;
+      r.why.push(sn + ' is ' + both(S1) + ' and ' + (kind === 'add' ? 'now has ' : 'has ') + linksPhrase(r1, s) + '. A followed link passes d × score ÷ links: \u003ccode>' + d.toFixed(2) + ' × ' + num(S1) + ' ÷ ' + L1 + ' = ' + num(per1) + '\u003c/code>.');
+      if (open) r.why.push('That takes ' + tn + ' from a raw ' + rawF(r0.score[ t ]) + ' to ' + rawF(r1.score[ t ]) + ', which is ' + val(r0.score[ t ], r0) + ' → ' + val(r1.score[ t ]) + '. PR is a log scale: each point is 6 times the raw score of the one below it.');
+      if (!open && kind === 'add' && L0 === 0) r.why.push('Before this link ' + sn + ' had no links out, so its whole share went into the random jump that every page gets.');
+    } else if (kind === 'add-nf') {
+      r.why.push('In this model a nofollow link counts as one of ' + sn + '’s ' + linksPhrase(r1, s) + ' but passes nothing, so ' + tn + ' gets nothing from it. Google treats nofollow as a hint, so in real Search it might count or might not.');
+    } else if (kind === 'rm') {
+      r.why.push(tn + ' no longer gets the ' + num(per0) + unit + ' that link passed (\u003ccode>' + d.toFixed(2) + ' × ' + num(S0) + ' ÷ ' + L0 + '\u003c/code>).');
+    } else if (kind === 'rm-nf') {
+      r.why.push('That link passed nothing, so ' + tn + ' loses nothing directly. ' + sn + ' now has one link fewer.');
+    } else if (kind === 'to-nf') {
+      r.why.push('The link still counts as one of ' + sn + '’s ' + L1 + ' links, so its other links don’t gain anything. The ' + num(per0) + unit + ' it passed just stops flowing' + (open ? '.' : ' and goes back into the random jump.') + ' That’s also why nofollowing your own links doesn’t push more value to the rest.');
+    }
+    if (others > 0 && L0 !== L1 && L0 > 0 && L1 > 0) {
+      r.why.push(sn + '’s other ' + (others === 1 ? 'followed link now passes ' : others + ' followed links now pass ') + num(per1) + unit + (others === 1 ? '' : ' each') + ' instead of ' + num(per0) + (L1 > L0 ? ': one more link on the page thins every link on it.' : ': one link fewer means a bigger share for the rest.'));
+    }
+    var gap = dT - direct;
+    if ((kind === 'add' || kind === 'to-f') && Math.abs(gap) > 0.01 * Math.max(1e-9, Math.abs(dT)) && Math.abs(gap) > (open ? 0.01 : 2e-5)) {
+      r.why.push(tn + ' moved ' + signed(dT) + unit + ' in total: ' + signed(direct) + ' from this link and ' + signed(gap) + ' from the rest of the graph shifting' + (open ? ' (value that loops back through other pages).' : ' (in Pure mode every score is a share of 100%, so a gain here comes out of other pages).'));
+    }
+    var loser = biggestMove(b, [ t ], -1);
+    if (loser && (kind === 'add' || kind === 'add-nf' || kind === 'to-f')) {
+      var lv = S.res.score[ loser ] - b.res.score[ loser ];
+      if (Math.abs(lv) > (open ? 0.01 : 1e-5)) r.why.push('Biggest drop elsewhere: \u003cb>' + esc(nameOf(loser)) + '\u003c/b>, ' + num(b.res.score[ loser ]) + ' → ' + num(S.res.score[ loser ]) + unit + '.');
+    }
+    r.status = titles[ kind ] + '. Model recalculated';
+    return r;
+  }
+  function explainManual(on, b) {
+    var r = base('para', b, on ? 'Site reputation manual action on ' + nameOf('para') : 'Site reputation action lifted', 'manual');
+    if (on) {
+      r.why.push('Every score stayed the same. Site reputation abuse is a spam policy aimed at the page itself, not a change to link math: a manual action demotes or removes that section in Search, and Google’s systems can, over time, rank it on its own instead of on the host site’s reputation.');
+      r.why.push('Since late August 2026, Google says these manual actions no longer affect results for searchers in the European Economic Area.');
+    } else r.why.push('The page is back to normal in this demo. Its PR never changed.');
+    r.status = on ? 'Page marked as demoted in Search' : 'Action lifted';
+    return r;
+  }
+  function explainBulk(id, src, b) {
+    var f = focusId(), r = base(f, b, id === 'nf' ? 'Nofollowed the 7 utility links' : id === 'rm' ? 'Removed the 7 utility links' : 'Utility links are followed again', 'bulk-' + id);
+    var r0 = b.res, r1 = S.res, d = S.d, L0 = r0.L[ src ], L1 = r1.L[ src ], p0 = L0 ? d * r0.score[ src ] / L0 : 0, p1 = L1 ? d * r1.score[ src ] / L1 : 0;
+    var hn = '\u003cb>' + esc(nameOf(src)) + '\u003c/b>', unit = S.mode === 'open' ? ' raw' : '';
+    if (id === 'nf') {
+      r.why.push(hn + ' still has ' + L1 + ' links, so each followed link still passes d × score ÷ ' + L1 + ' (' + num(p0) + ' before, ' + num(p1) + unit + ' now). The 7 nofollowed shares don’t move to the other links. They just stop flowing' + (S.mode === 'pure' ? ' and go back into the random jump, which lifts every page a little.' : '.'));
+      if (S.mode === 'open') r.why.push('YOUR PAGE can even dip slightly: the utility pages no longer get value to pass back to the homepage.');
+    } else if (id === 'rm') {
+      r.why.push(hn + ' now has ' + L1 + ' links instead of ' + L0 + ', so each one passes ' + num(p1) + ' instead of ' + num(p0) + unit + '. Fewer links on a page, bigger share per link. That’s the honest version of what sculpting tried to do.');
+    } else {
+      r.why.push(hn + ' has ' + L1 + ' followed links again, each passing ' + num(p1) + unit + '.');
+    }
+    r.status = r.title;
+    return r;
+  }
+  function explainAssume(id, field, old, v, b) {
+    var lab = field === 'pr' ? 'starting PR' : 'links to pages not drawn';
+    var r = base(id, b, nameOf(id) + ': ' + lab + ' ' + old + ' → ' + v, 'assume-' + field), pn = '\u003cb>' + esc(nameOf(id)) + '\u003c/b>';
+    if (S.mode === 'pure') r.why.push('This setting is only used in Open web mode, so nothing changes in Pure PageRank.');
+    else if (field === 'pr') r.why.push('Starting PR stands for the backlinks you haven’t drawn. PR ' + v + ' means a raw score of ' + (1 - S.d).toFixed(2) + ' × 6^' + v + ' = ' + rawF((1 - S.d) * Math.pow(BASE, v)) + ' before any drawn links count. Then ' + S.d.toFixed(2) + ' of ' + pn + '’s score flows on through its links.');
+    else r.why.push(pn + ' now has ' + linksPhrase(S.res, id) + ', so each followed link on it passes ' + num(S.res.L[ id ] ? S.d * S.res.score[ id ] / S.res.L[ id ] : 0) + ' raw (was ' + num(b.res.L[ id ] ? S.d * b.res.score[ id ] / b.res.L[ id ] : 0) + ').');
+    var mv = biggestMove(b, [ id ], field === 'off' ? -1 : 1);
+    if (S.mode === 'open' && mv) {
+      var dv = S.res.score[ mv ] - b.res.score[ mv ];
+      if (Math.abs(dv) > 0.01) r.why.push('Biggest change elsewhere: \u003cb>' + esc(nameOf(mv)) + '\u003c/b>, ' + val(b.res.score[ mv ], b.res) + ' → ' + val(S.res.score[ mv ]) + ' (raw ' + rawF(b.res.score[ mv ]) + ' → ' + rawF(S.res.score[ mv ]) + ').');
+    }
+    r.status = 'Setting changed. Model recalculated';
+    return r;
+  }
+  function explainMode(b) {
+    var f = focusId(), r = base(f, b, S.mode === 'pure' ? 'Switched to Pure PageRank' : 'Switched to Open web', 'mode-' + S.mode);
+    r.unitsChanged = true;
+    if (S.mode === 'pure') {
+      r.why.push('Pure PageRank is the textbook formula on just these ' + S.nodes.length + ' pages. It ignores starting PR and links to pages not drawn, every page gets the same random-jump share, and the scores are shares that add up to 100%. A page nothing links to sits at ' + shareF((1 - S.d) / S.nodes.length) + '.');
+      r.why.push('That’s why you won’t see PR 0 to 10 here. Toolbar-style PR only means something for a page inside the whole web, which is what Open web models. Switch back to see PR.');
+      if (S.sc && S.sc.pureNote) r.why.push(esc(S.sc.pureNote));
+    } else r.why.push('Open web puts these pages back inside the bigger web: each page keeps its starting PR from links you haven’t drawn, and scores show as PR on the 0 to 10 scale.');
+    r.status = r.title;
+    return r;
+  }
+  function explainDamp(b) {
+    var f = focusId(), r = base(f, b, 'Damping changed: d = ' + b.d.toFixed(2) + ' → ' + S.d.toFixed(2), 'damping');
+    r.why.push('d is the share of a page’s score that flows out through its links. ' + (S.d > b.d ? 'Higher d means links carry more and the random jump carries less.' : 'Lower d means links carry less and the random jump carries more.') + ' The original paper suggests 0.85.');
+    r.status = r.title;
+    return r;
+  }
+  function explainPage(kind, n, b) {
+    var f = kind === 'add' ? n.id : focusId(), r;
+    if (kind === 'add') {
+      r = base(f, b, 'Page added: ' + n.name, 'page-add');
+      r.before = null; r.p0 = '';
+      r.why.push(S.mode === 'pure' ? 'There are now ' + S.nodes.length + ' pages, so the random jump is split ' + S.nodes.length + ' ways and every page’s base share drops. The new page sits at the floor until something links to it.' : 'It starts at PR 0 because nothing links to it yet. Draw a link to it, or give it a starting PR in Page details.');
+    } else {
+      r = base(f, b, 'Page removed: ' + n.name, 'page-rm');
+      r.why.push('Its links went with it. Pages it linked to lost what it passed, and pages that linked to it now have one link fewer to share their score with.');
+    }
+    r.status = r.title;
+    return r;
+  }
+  function explainGeneric(label, b) {
+    var f = focusId(), r = base(f, b, label, 'generic');
+    if (b.mode !== S.mode) r.unitsChanged = true;
+    r.why.push('The graph is back to how it was before that change.');
+    r.status = label;
+    return r;
+  }
+  /* ---------- view (world 1000 x 620, transposed on tall canvases) ---------- */
+  var cvs = $('.ots-canvas'), wrap = $('.ots-canvas-wrap'), ctx = cvs.getContext('2d');
+  var V = { w: 800, h: 600, dpr: 1, scale: 1, ox: 0, oy: 0, tr: false, k: 1 };
+  function w2s(x, y, v) { v = v || V; if (v.tr) { var q = x; x = y; y = q; } return [ x * v.scale + v.ox, y * v.scale + v.oy ]; }
+  function s2w(px, py, v) { v = v || V; var x = (px - v.ox) / v.scale, y = (py - v.oy) / v.scale; return v.tr ? [ y, x ] : [ x, y ]; }
+  function fitView(v, w, h, nodes) {
+    v.w = w; v.h = h; v.tr = h > w * 1.08;
+    var minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+    each(nodes, function (n) { var x = v.tr ? n.y : n.x, y = v.tr ? n.x : n.y; minx = Math.min(minx, x); maxx = Math.max(maxx, x); miny = Math.min(miny, y); maxy = Math.max(maxy, y); });
+    if (!nodes.length) { minx = 0; maxx = 1000; miny = 0; maxy = 620; }
+    var bw = Math.max(maxx - minx, 120), bh = Math.max(maxy - miny, 120);
+    var padL = w > 600 ? 86 : 50, padR = padL, padT = w > 600 ? 64 : 100, padB = w > 600 ? 86 : 104;
+    v.scale = clamp(Math.min((w - padL - padR) / bw, (h - padT - padB) / bh), 0.2, 1.4);
+    v.ox = padL + ((w - padL - padR) - bw * v.scale) / 2 - minx * v.scale;
+    v.oy = padT + ((h - padT - padB) - bh * v.scale) / 2 - miny * v.scale;
+    v.k = clamp(v.scale * 1.3, 0.82, 1.12);
+    return v;
+  }
+  function fit() { fitView(V, V.w, V.h, S.nodes); draw(); }
+  function resize() {
+    var r = wrap.getBoundingClientRect(), w = Math.max(200, Math.round(r.width)), h = Math.max(200, Math.round(r.height));
+    V.dpr = Math.min(2, window.devicePixelRatio || 1);
+    cvs.width = Math.round(w * V.dpr); cvs.height = Math.round(h * V.dpr);
+    fitView(V, w, h, S.nodes);
+    draw();
+  }
+  function freeSpot() {
+    var best = [ 500, 310 ], bd = -1, i, j, p, d;
+    for (i = 1; 9 > i; i++) for (j = 1; 7 > j; j++) {
+      p = s2w(V.w * i / 9, V.h * j / 7);
+      d = 1e9;
+      each(S.nodes, function (n) { d = Math.min(d, Math.hypot(n.x - p[ 0 ], n.y - p[ 1 ])); });
+      if (d > bd) { bd = d; best = p; }
+    }
+    return [ Math.round(best[ 0 ]), Math.round(best[ 1 ]) ];
+  }
+  /* ---------- drawing ---------- */
+  function rgba(hex, a) { var n = parseInt(hex.slice(1), 16); return 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')'; }
+  function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.lineTo(x + w - r, y); c.quadraticCurveTo(x + w, y, x + w, y + r); c.lineTo(x + w, y + h - r); c.quadraticCurveTo(x + w, y + h, x + w - r, y + h); c.lineTo(x + r, y + h); c.quadraticCurveTo(x, y + h, x, y + h - r); c.lineTo(x, y + r); c.quadraticCurveTo(x, y, x + r, y); c.closePath(); }
+  function radiusOf(id, v, res) {
+    res = res || S.res;
+    var floor = res.mode === 'pure' ? (1 - res.d) / Math.max(1, res.N) : (1 - res.d), mx = floor * 1.0001;
+    for (var k in res.score) mx = Math.max(mx, res.score[ k ]);
+    var t = Math.log(Math.max(res.score[ id ], floor) / floor) / Math.log(mx / floor);
+    return (11 + 16 * clamp(t || 0, 0, 1)) * v.k;
+  }
+  function geom(e, v, R) {
+    var a = node(e.s), b = node(e.t);
+    if (!a || !b) return null;
+    var A = w2s(a.x, a.y, v), B = w2s(b.x, b.y, v), dx = B[ 0 ] - A[ 0 ], dy = B[ 1 ] - A[ 1 ], len = Math.hypot(dx, dy) || 1;
+    var bend = 0.13 * len, C = [ (A[ 0 ] + B[ 0 ]) / 2 + dy / len * bend, (A[ 1 ] + B[ 1 ]) / 2 - dx / len * bend ];
+    var ra = R[ e.s ], rb = R[ e.t ], t0 = clamp((ra + 3) / len, 0, 0.45), t1 = clamp(1 - (rb + 6) / len, 0.55, 1);
+    function P(t) { var u = 1 - t; return [ u * u * A[ 0 ] + 2 * u * t * C[ 0 ] + t * t * B[ 0 ], u * u * A[ 1 ] + 2 * u * t * C[ 1 ] + t * t * B[ 1 ] ]; }
+    var Q = [ (1 - t0) * (1 - t1) * A[ 0 ] + (t0 * (1 - t1) + (1 - t0) * t1) * C[ 0 ] + t0 * t1 * B[ 0 ], (1 - t0) * (1 - t1) * A[ 1 ] + (t0 * (1 - t1) + (1 - t0) * t1) * C[ 1 ] + t0 * t1 * B[ 1 ] ];
+    var s0 = P(t0), s1 = P(t1), tx = 2 * (1 - t1) * (C[ 0 ] - A[ 0 ]) + 2 * t1 * (B[ 0 ] - C[ 0 ]), ty = 2 * (1 - t1) * (C[ 1 ] - A[ 1 ]) + 2 * t1 * (B[ 1 ] - C[ 1 ]);
+    var tl = Math.hypot(tx, ty) || 1;
+    return { a: s0, q: Q, b: s1, ux: tx / tl, uy: ty / tl, at: function (t) { var u = 1 - t; return [ u * u * s0[ 0 ] + 2 * u * t * Q[ 0 ] + t * t * s1[ 0 ], u * u * s0[ 1 ] + 2 * u * t * Q[ 1 ] + t * t * s1[ 1 ] ]; } };
+  }
+  function edgeStyle(e) {
+    if (e.disc) return { c: '#ff4d6d', dash: [ 6, 6 ], a: 0.85 };
+    if (e.rel === 'nofollow') return { c: '#94a3b8', dash: [ 5, 6 ], a: 0.65 };
+    var n = node(e.s);
+    return { c: n ? colorOf(n) : '#4f8ff7', dash: null, a: 0.85 };
+  }
+  function labelText(n, res) {
+    var v = res.score[ n.id ];
+    if (res.mode === 'pure') return 'Share ' + shareF(v);
+    return 'PR ' + prOf(res, v).toFixed(1) + (S.raw ? '  \u00b7  ' + rawF(v) : '');
+  }
+  function overlap(a, b) { return Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y)); }
+  function renderGraph(c, v, opt) {
+    var res = S.res, time = opt.time || 0, anim = !!opt.anim, R = { }, G = { }, maxFlow = 0, gd = opt.guide, focus = S.hover || S.pending;
+    var fs = v.w > 600 ? 1 : 0.96;
+    each(S.nodes, function (n) { R[ n.id ] = radiusOf(n.id, v, res); });
+    each(S.edges, function (e) { var f = ENGINE.passed(res, e); e._f = f; if (f > maxFlow) maxFlow = f; });
+    /* edges */
+    c.lineCap = 'round';
+    each(S.edges, function (e, i) {
+      var g = geom(e, v, R);
+      G[ i ] = g;
+      if (!g) return;
+      var st = edgeStyle(e), dim = focus && e.s !== focus && e.t !== focus;
+      var w = e._f > 0 ? 1.3 + 2.6 * Math.sqrt(e._f / (maxFlow || 1)) : 1.5;
+      c.globalAlpha = st.a * (dim ? 0.35 : 1);
+      c.strokeStyle = st.c; c.lineWidth = w; c.setLineDash(st.dash || [ ]);
+      c.beginPath(); c.moveTo(g.a[ 0 ], g.a[ 1 ]); c.quadraticCurveTo(g.q[ 0 ], g.q[ 1 ], g.b[ 0 ], g.b[ 1 ]); c.stroke();
+      c.setLineDash([ ]);
+      var ah = 7 + w;
+      c.fillStyle = st.c;
+      c.beginPath(); c.moveTo(g.b[ 0 ] + g.ux * 3, g.b[ 1 ] + g.uy * 3); c.lineTo(g.b[ 0 ] - g.ux * ah - g.uy * ah * 0.5, g.b[ 1 ] - g.uy * ah + g.ux * ah * 0.5); c.lineTo(g.b[ 0 ] - g.ux * ah + g.uy * ah * 0.5, g.b[ 1 ] - g.uy * ah - g.ux * ah * 0.5); c.closePath(); c.fill();
+      c.globalAlpha = 1;
+    });
+    /* flow dots */
+    each(S.edges, function (e, i) {
+      var g = G[ i ];
+      if (!g) return;
+      var dim = focus && e.s !== focus && e.t !== focus, col = edgeStyle(e).c;
+      if (!(e._f > 0)) {
+        var pm = g.at(0.5);
+        c.globalAlpha = dim ? 0.3 : 0.95;
+        if (e.disc) {
+          c.fillStyle = '#0a1220'; c.beginPath(); c.arc(pm[ 0 ], pm[ 1 ], 7, 0, 6.2832); c.fill();
+          c.strokeStyle = '#ff4d6d'; c.lineWidth = 2; c.beginPath(); c.moveTo(pm[ 0 ] - 3.5, pm[ 1 ] - 3.5); c.lineTo(pm[ 0 ] + 3.5, pm[ 1 ] + 3.5); c.moveTo(pm[ 0 ] + 3.5, pm[ 1 ] - 3.5); c.lineTo(pm[ 0 ] - 3.5, pm[ 1 ] + 3.5); c.stroke();
+        } else { c.fillStyle = '#cbd5e1'; c.beginPath(); c.arc(pm[ 0 ], pm[ 1 ], 2.6, 0, 6.2832); c.fill(); }
+        c.globalAlpha = 1;
+        return;
+      }
+      var m = anim ? 1 + Math.round(2 * Math.sqrt(e._f / (maxFlow || 1))) : 1, ph = ((i * 0.6180339) % 1), j, t, p, rad = 2.2 + 1.4 * Math.sqrt(e._f / (maxFlow || 1));
+      for (j = 0; m > j; j++) {
+        t = anim ? (ph + j / m + time * 0.3) % 1 : 0.5;
+        p = g.at(t);
+        c.globalAlpha = dim ? 0.15 : 0.28; c.fillStyle = col; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], rad + 3.5, 0, 6.2832); c.fill();
+        c.globalAlpha = dim ? 0.3 : 1; c.fillStyle = '#ffffff'; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], rad * 0.55, 0, 6.2832); c.fill();
+        c.fillStyle = col; c.globalAlpha = dim ? 0.3 : 0.9; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], rad, 0, 6.2832); c.fill();
+      }
+      c.globalAlpha = 1;
+    });
+    /* pending link line */
+    if (opt.drag && S.pending && node(S.pending)) {
+      var pa = w2s(node(S.pending).x, node(S.pending).y, v);
+      c.strokeStyle = 'rgba(196,181,253,.9)'; c.lineWidth = 2; c.setLineDash([ 6, 6 ]);
+      c.beginPath(); c.moveTo(pa[ 0 ], pa[ 1 ]); c.lineTo(opt.drag[ 0 ], opt.drag[ 1 ]); c.stroke(); c.setLineDash([ ]);
+    }
+    /* nodes */
+    var obstacles = [ ], badges = [ ];
+    each(S.nodes, function (n) {
+      var p = w2s(n.x, n.y, v), r = R[ n.id ], col = colorOf(n), dim = focus && focus !== n.id && !S.edges.some(function (e) { return (e.s === focus && e.t === n.id) || (e.t === focus && e.s === n.id); });
+      obstacles.push({ x: p[ 0 ] - r - 3, y: p[ 1 ] - r - 3, w: 2 * r + 6, h: 2 * r + 6 });
+      c.globalAlpha = dim ? 0.62 : 1;
+      if (n.flag === 'demoted') c.globalAlpha = 0.55;
+      var gr = c.createRadialGradient(p[ 0 ], p[ 1 ] - r * 0.3, r * 0.1, p[ 0 ], p[ 1 ], r);
+      gr.addColorStop(0, rgba(col, 0.5)); gr.addColorStop(1, 'rgba(10,18,32,0.92)');
+      c.fillStyle = gr; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], r, 0, 6.2832); c.fill();
+      c.shadowColor = rgba(col, 0.85); c.shadowBlur = opt.noShadow ? 0 : 14;
+      c.strokeStyle = col; c.lineWidth = r > 18 ? 3.2 : 2.6;
+      c.beginPath(); c.arc(p[ 0 ], p[ 1 ], r, 0, 6.2832); c.stroke();
+      c.shadowBlur = 0;
+      c.globalAlpha = 1;
+      if (S.sel === n.id) { c.strokeStyle = 'rgba(255,255,255,.85)'; c.lineWidth = 2; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], r + 6, 0, 6.2832); c.stroke(); }
+      if (S.pending === n.id) {
+        var pr = r + 7 + (anim ? 2.5 * Math.sin(time * 5) : 0);
+        c.strokeStyle = '#c4b5fd'; c.lineWidth = 2.5; c.beginPath(); c.arc(p[ 0 ], p[ 1 ], pr, 0, 6.2832); c.stroke();
+      }
+      if (gd && (gd.s === n.id || gd.t === n.id) && S.pending !== n.id) {
+        c.save(); c.translate(p[ 0 ], p[ 1 ]); c.rotate(anim ? time * 0.8 : 0);
+        c.strokeStyle = gd.s === n.id ? '#c4b5fd' : '#fde047'; c.lineWidth = 2; c.setLineDash([ 5, 5 ]);
+        c.beginPath(); c.arc(0, 0, r + 8, 0, 6.2832); c.stroke(); c.restore(); c.setLineDash([ ]);
+        if (gd.do !== 'rel' || gd.s === n.id) badges.push({ n: n, p: p, r: r, txt: gd.do === 'rel' ? (gd.rel === 'nofollow' ? 'MAKE THIS LINK NOFOLLOW' : 'MAKE THIS LINK FOLLOWED') : gd.s === n.id ? (gd.do === 'unlink' ? 'REMOVE FROM' : 'LINK FROM') : (gd.do === 'unlink' ? 'REMOVE TO' : 'LINK TO'), bg: gd.s === n.id ? '#8b7cf6' : '#fde047', fg: gd.s === n.id ? '#ffffff' : '#1a1405' });
+      }
+      if (n.flag === 'demoted') badges.push({ n: n, p: p, r: r, txt: 'DEMOTED IN SEARCH', bg: '#ff4d6d', fg: '#ffffff' });
+    });
+    /* badges above nodes */
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    each(badges, function (bd) {
+      c.font = '700 ' + (10.5 * fs) + 'px ' + FONT;
+      var tw = c.measureText(bd.txt).width + 14, bx = bd.p[ 0 ] - tw / 2, by = bd.p[ 1 ] - bd.r - 12 - 20;
+      bx = clamp(bx, 4, v.w - tw - 4); by = Math.max(4, by);
+      rr(c, bx, by, tw, 19, 6); c.fillStyle = bd.bg; c.fill();
+      c.fillStyle = bd.fg; c.fillText(bd.txt, bx + tw / 2, by + 10);
+      obstacles.push({ x: bx, y: by, w: tw, h: 19 });
+    });
+    /* labels with simple collision avoidance */
+    var order = S.nodes.slice().sort(function (a, b) {
+      var pa = (a.id === S.sel ? 4 : 0) + (a.kind === 'you' ? 3 : 0) + (gd && (gd.s === a.id || gd.t === a.id) ? 2 : 0), pb = (b.id === S.sel ? 4 : 0) + (b.kind === 'you' ? 3 : 0) + (gd && (gd.s === b.id || gd.t === b.id) ? 2 : 0);
+      return pb - pa || res.score[ b.id ] - res.score[ a.id ];
+    });
+    var placed = [ ], nameF = '700 ' + (12.5 * fs) + 'px ' + FONT, subF = '500 ' + (11.5 * fs) + 'px ' + FONT;
+    each(order, function (n) {
+      var p = w2s(n.x, n.y, v), r = R[ n.id ], name = n.name, sub = labelText(n, res);
+      c.font = nameF; var w1 = c.measureText(name).width; c.font = subF; var w2 = c.measureText(sub).width;
+      var w = Math.max(w1, w2) + 6, h = 33 * fs, cands = [
+        { x: p[ 0 ] - w / 2, y: p[ 1 ] + r + 5 }, { x: p[ 0 ] - w / 2, y: p[ 1 ] - r - 5 - h }, { x: p[ 0 ] + r + 7, y: p[ 1 ] - h / 2 }, { x: p[ 0 ] - r - 7 - w, y: p[ 1 ] - h / 2 },
+        { x: p[ 0 ] + r * 0.5, y: p[ 1 ] + r + 3 }, { x: p[ 0 ] - r * 0.5 - w, y: p[ 1 ] + r + 3 }, { x: p[ 0 ] + r * 0.5, y: p[ 1 ] - r - 3 - h }, { x: p[ 0 ] - r * 0.5 - w, y: p[ 1 ] - r - 3 - h }
+      ], best = null, bp = 1e18;
+      each(cands, function (cd, ci) {
+        var box = { x: cd.x, y: cd.y, w: w, h: h }, pen = ci * 6;
+        if (0 > box.x || 0 > box.y || box.x + box.w > v.w || box.y + box.h > v.h) pen += 4000;
+        each(placed, function (o) { pen += overlap(box, o) * 3; });
+        each(obstacles, function (o) { pen += overlap(box, o) * 2; });
+        if (bp > pen) { bp = pen; best = box; }
+      });
+      best.x = clamp(best.x, 2, v.w - best.w - 2); best.y = clamp(best.y, 2, v.h - best.h - 2);
+      placed.push(best);
+      var cx = best.x + best.w / 2, dim = focus && focus !== n.id && !S.edges.some(function (e) { return (e.s === focus && e.t === n.id) || (e.t === focus && e.s === n.id); });
+      c.globalAlpha = dim ? 0.65 : 1;
+      c.textAlign = 'center'; c.textBaseline = 'alphabetic';
+      c.lineJoin = 'round'; c.lineWidth = 4; c.strokeStyle = 'rgba(10,18,32,.85)';
+      c.font = nameF; c.strokeText(name, cx, best.y + 13 * fs); c.fillStyle = n.kind === 'you' ? '#fde047' : '#ffffff'; c.fillText(name, cx, best.y + 13 * fs);
+      c.font = subF; c.strokeText(sub, cx, best.y + 29 * fs); c.fillStyle = n.flag === 'demoted' ? '#ff8fa3' : '#8fd3f4'; c.fillText(sub, cx, best.y + 29 * fs);
+      c.globalAlpha = 1;
+    });
+    return { R: R, G: G };
+  }
+  var FONT = '"Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+  var lastGeo = null, dragPt = null, raf = 0, lastT = 0;
+  function animating() { return !S.paused && S.visible && !document.hidden; }
+  function draw() {
+    if (!S.res) return;
+    var t = performance.now() / 1000;
+    ctx.setTransform(V.dpr, 0, 0, V.dpr, 0, 0);
+    ctx.clearRect(0, 0, V.w, V.h);
+    lastGeo = renderGraph(ctx, V, { time: t, anim: animating(), guide: guide(), drag: dragPt });
+  }
+  function loop(ts) {
+    raf = 0;
+    if (!animating()) { draw(); return; }
+    if (ts - lastT >= 32) { lastT = ts; draw(); }
+    raf = requestAnimationFrame(loop);
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+  function redraw() { if (animating()) kick(); else draw(); }
+  /* ---------- hit testing ---------- */
+  function hitNode(px, py) {
+    if (!lastGeo) return null;
+    var best = null, bd = 1e9, slop = coarse() ? 12 : 6;
+    each(S.nodes, function (n) {
+      var p = w2s(n.x, n.y), r = Math.max(lastGeo.R[ n.id ] + slop, coarse() ? 24 : 16), d = Math.hypot(px - p[ 0 ], py - p[ 1 ]);
+      if (r >= d && bd > d) { bd = d; best = n.id; }
+    });
+    return best;
+  }
+  function hitEdge(px, py) {
+    if (!lastGeo) return null;
+    var best = null, bd = coarse() ? 14 : 8;
+    each(S.edges, function (e, i) {
+      var g = lastGeo.G[ i ], k, a, b, t, dx, dy, l2, q, d;
+      if (!g) return;
+      a = g.at(0);
+      for (k = 1; 17 > k; k++) {
+        b = g.at(k / 16); dx = b[ 0 ] - a[ 0 ]; dy = b[ 1 ] - a[ 1 ]; l2 = dx * dx + dy * dy || 1;
+        t = clamp(((px - a[ 0 ]) * dx + (py - a[ 1 ]) * dy) / l2, 0, 1); q = [ a[ 0 ] + t * dx, a[ 1 ] + t * dy ];
+        d = Math.hypot(px - q[ 0 ], py - q[ 1 ]);
+        if (bd > d) { bd = d; best = e; }
+        a = b;
+      }
+    });
+    return best;
+  }
+  /* ---------- pointer ---------- */
+  var ptr = null;
+  function local(ev) { var r = cvs.getBoundingClientRect(); return [ ev.clientX - r.left, ev.clientY - r.top ]; }
+  cvs.addEventListener('pointerdown', function (ev) {
+    if (ev.button > 0) return;
+    launched('canvas');
+    var p = local(ev), id = hitNode(p[ 0 ], p[ 1 ]);
+    ptr = { id: id, x: p[ 0 ], y: p[ 1 ], moved: false, pid: ev.pointerId, type: ev.pointerType };
+    if (id && (S.tool === 'move' || ((S.tool === 'link' || S.tool === 'nofollow') && ev.pointerType === 'mouse'))) { try { cvs.setPointerCapture(ev.pointerId); } catch (x) { } }
+    if (id && S.tool === 'move') ev.preventDefault();
+  });
+  cvs.addEventListener('pointermove', function (ev) {
+    var p = local(ev);
+    if (ptr && ptr.pid === ev.pointerId) {
+      if (Math.hypot(p[ 0 ] - ptr.x, p[ 1 ] - ptr.y) > 5) ptr.moved = true;
+      if (ptr.moved && ptr.id && S.tool === 'move') {
+        var w = s2w(clamp(p[ 0 ], 20, V.w - 20), clamp(p[ 1 ], 20, V.h - 20)), n = node(ptr.id);
+        if (n) { n.x = Math.round(w[ 0 ]); n.y = Math.round(w[ 1 ]); hideTip(); redraw(); }
+        return;
+      }
+      if (ptr.moved && ptr.id && (S.tool === 'link' || S.tool === 'nofollow') && ptr.type === 'mouse') { S.pending = ptr.id; dragPt = p; redraw(); return; }
+    }
+    if (ev.pointerType === 'mouse') {
+      var h = hitNode(p[ 0 ], p[ 1 ]);
+      if (h !== S.hover) { S.hover = h; redraw(); }
+      if (h) showTip(h, p); else hideTip();
+      var he = h ? null : (S.tool === 'nofollow' || S.tool === 'delete' ? hitEdge(p[ 0 ], p[ 1 ]) : null);
+      cvs.style.cursor = h ? (S.tool === 'move' ? 'grab' : 'pointer') : (he ? 'pointer' : 'default');
+    }
+  });
+  function endPtr(ev, cancel) {
+    if (!ptr || ptr.pid !== ev.pointerId) return;
+    var p = local(ev), was = ptr;
+    ptr = null; dragPt = null;
+    if (cancel) { redraw(); return; }
+    if (was.moved && was.id && S.tool === 'move') { status('Moved ' + nameOf(was.id)); redraw(); return; }
+    if (was.moved && was.id && (S.tool === 'link' || S.tool === 'nofollow') && was.type === 'mouse') {
+      var tgt = hitNode(p[ 0 ], p[ 1 ]);
+      if (tgt && tgt !== was.id) { S.pending = null; addLink(was.id, tgt, S.tool === 'nofollow' ? 'nofollow' : 'follow'); return; }
+      S.pending = was.id; hint(); redraw(); return;
+    }
+    if (was.moved && !was.id) return;
+    clickAt(p[ 0 ], p[ 1 ], was.id);
+  }
+  cvs.addEventListener('pointerup', function (ev) { endPtr(ev, false); });
+  cvs.addEventListener('pointercancel', function (ev) { endPtr(ev, true); });
+  cvs.addEventListener('pointerleave', function () { if (S.hover) { S.hover = null; redraw(); } hideTip(); });
+  function clickAt(x, y, id) {
+    var tool = S.tool;
+    if (tool === 'move') {
+      if (id) { select(id); status(nameOf(id) + ' selected'); }
+      else { var e0 = hitEdge(x, y); if (e0) status(edgeText(e0)); else if (S.sel) { S.sel = null; renderPage(); renderRank(); redraw(); } }
+      return;
+    }
+    if (tool === 'link' || tool === 'nofollow') {
+      if (!id) {
+        var e1 = tool === 'nofollow' ? hitEdge(x, y) : null;
+        if (e1) { setRel(e1.s, e1.t, e1.rel === 'nofollow' ? 'follow' : 'nofollow'); return; }
+        if (S.pending) { S.pending = null; status('Link cancelled'); hint(); redraw(); }
+        return;
+      }
+      if (!S.pending) { S.pending = id; select(id, true); status('Linking from ' + nameOf(id) + '. Now pick the page it links to'); hint(); redraw(); return; }
+      if (S.pending === id) { S.pending = null; status('Link cancelled'); hint(); redraw(); return; }
+      var from = S.pending;
+      S.pending = null; hint();
+      addLink(from, id, tool === 'nofollow' ? 'nofollow' : 'follow');
+      return;
+    }
+    if (tool === 'delete') {
+      if (id) { removeNode(id); return; }
+      var e2 = hitEdge(x, y);
+      if (e2) removeLink(e2.s, e2.t);
+    }
+  }
+  function edgeText(e) {
+    var f = ENGINE.passed(S.res, e);
+    return nameOf(e.s) + ' → ' + nameOf(e.t) + ': ' + (e.rel === 'nofollow' ? 'nofollow, passes nothing in this model' : 'followed, passes ' + num(f) + (S.mode === 'open' ? ' raw' : '')) + (e.tag ? ' (' + fpLabel(e.tag).toLowerCase() + ')' : '');
+  }
+  /* ---------- tooltip + hint ---------- */
+  var tip = $('.ots-tip'), hintEl = $('.ots-hint');
+  function showTip(id, p) {
+    var n = node(id);
+    if (!n || coarse()) return;
+    var rec = S.res.by[ id ], fp = n.traits.map(fpLabel);
+    tip.innerHTML = '\u003cb>' + esc(n.name) + '\u003c/b>' +
+      '\u003cdiv class="ots-tip-row">\u003cspan>' + (S.mode === 'pure' ? 'Share' : 'PR') + '\u003c/span>\u003cspan>' + (S.mode === 'pure' ? shareF(S.res.score[ id ]) : prOf(S.res, S.res.score[ id ]).toFixed(1) + ' (raw ' + rawF(S.res.score[ id ]) + ')') + '\u003c/span>\u003c/div>' +
+      '\u003cdiv class="ots-tip-row">\u003cspan>Position\u003c/span>\u003cspan>' + posText(S.pos, id, S.nodes.length) + '\u003c/span>\u003c/div>' +
+      '\u003cdiv class="ots-tip-row">\u003cspan>Links in / out\u003c/span>\u003cspan>' + rec.inc.length + ' / ' + S.res.L[ id ] + '\u003c/span>\u003c/div>' +
+      (fp.length ? '\u003cdiv class="ots-tip-fp">Footprints: ' + esc(fp.join(', ')) + '\u003c/div>' : '') +
+      (n.flag === 'demoted' ? '\u003cdiv class="ots-tip-fp">Demoted in Search (manual action demo)\u003c/div>' : '');
+    tip.classList.remove('ots-hide');
+    var x = p[ 0 ] + 16, y = p[ 1 ] + 16;
+    if (x + 260 > V.w) x = p[ 0 ] - 266;
+    if (y + tip.offsetHeight + 8 > V.h) y = p[ 1 ] - tip.offsetHeight - 12;
+    tip.style.left = Math.max(6, x) + 'px'; tip.style.top = Math.max(6, y) + 'px';
+  }
+  function hideTip() { tip.classList.add('ots-hide'); }
+  function hint() {
+    var txt = '', g = guide(), act = coarse() ? 'Tap' : 'Click';
+    if ((S.tool === 'link' || S.tool === 'nofollow') && S.pending) txt = 'Linking from ' + nameOf(S.pending) + '. ' + act + ' the page it should link to' + (g && g.s === S.pending ? ' (' + nameOf(g.t) + ')' : '') + '.';
+    else if (S.tool === 'link' && g && g.do === 'link' && S.fresh) txt = act + ' ' + nameOf(g.s) + ', then ' + nameOf(g.t) + '.';
+    else if (S.tool === 'nofollow' && !S.pending) txt = act + ' a link to switch it between followed and nofollow, or draw a new nofollow link.';
+    else if (S.tool === 'delete') txt = act + ' a page or a link to remove it.';
+    hintEl.textContent = txt;
+  }
+  /* ---------- tools ---------- */
+  var TOOL_NOTES = {
+    move: 'Drag pages to tidy the graph. Click a page to see where its score comes from.',
+    link: 'Click the page that links out, then the page it links to. You can also drag from one to the other.',
+    nofollow: 'Click a link to switch it between followed and nofollow, or draw a new nofollow link.',
+    delete: 'Click a page or a link to remove it. Undo puts it back.'
+  };
+  function setTool(t, quiet) {
+    S.tool = t; S.pending = null;
+    each($$('.ots-tool'), function (b) { var on = b.getAttribute('data-tool') === t; b.classList.toggle('ots-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    cvs.style.touchAction = t === 'move' ? 'none' : 'pan-y';
+    var note = $('.ots-toolnote'); if (note) note.textContent = TOOL_NOTES[ t ] || '';
+    hint();
+    if (!quiet) { status({ move: 'Move tool', link: '+ Link tool: pick the page that links out', nofollow: 'Nofollow tool', delete: 'Delete tool' }[ t ]); redraw(); }
+  }
+  function setPaused(p) {
+    S.paused = p;
+    var live = $('.ots-live'); live.textContent = p ? 'PAUSED' : 'LIVE'; live.classList.toggle('ots-paused', p);
+    each($$('.ots-pausebtn'), function (b) {
+      b.innerHTML = icon(p ? 'play' : 'pause') + (b.classList.contains('ots-btn-sq') ? '' : '\u003cspan>' + (p ? 'Play' : 'Pause') + '\u003c/span>');
+      b.setAttribute('aria-label', p ? 'Play the flow animation' : 'Pause the flow animation');
+      b.classList.toggle('ots-on', p);
+    });
+    redraw();
+  }
+  function select(id, quiet) {
+    S.sel = id;
+    renderPage(); renderRank();
+    if (!quiet) redraw();
+  }
+  /* ---------- rendering panels ---------- */
+  function status(msg) { var el = $('.ots-s-text'); if (el && msg) el.textContent = msg; }
+  function renderStatus() {
+    $('.ots-s-mode').textContent = S.mode === 'pure' ? 'Pure PageRank' : 'Open web';
+    $('.ots-s-d').textContent = 'd = ' + S.d.toFixed(2);
+    var nl = 0; each(S.edges, function () { nl++; });
+    $('.ots-s-n').textContent = S.nodes.length + ' pages, ' + nl + ' links';
+  }
+  function renderScenarioButtons() {
+    var grid = $('.ots-scen-grid'), sel = $('.ots-msel'), h = '', o = '';
+    each(SCENARIOS, function (s) {
+      h += '\u003cbutton type="button" class="ots-btn ots-scbtn" data-sc="' + s.id + '" aria-pressed="false">' + icon(s.icon) + '\u003cspan>' + esc(s.name) + '\u003c/span>\u003c/button>';
+      o += '\u003coption value="' + s.id + '">' + esc(s.name) + '\u003c/option>';
+    });
+    grid.innerHTML = h; sel.innerHTML = o;
+  }
+  function syncScenario() {
+    each($$('.ots-scbtn'), function (b) { var on = b.getAttribute('data-sc') === S.sc.id; b.classList.toggle('ots-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    $('.ots-msel').value = S.sc.id;
+    each($$('.ots-mode button'), function (b) { var on = b.getAttribute('data-mode') === S.mode; b.classList.toggle('ots-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    var dr = $('.ots-damp'); dr.value = S.d; dr.style.setProperty('--p', ((S.d - 0.5) / 0.45 * 100) + '%');
+    $('.ots-damp-v').textContent = S.d.toFixed(2);
+    var rw = $('.ots-rawsw'); rw.checked = S.raw; rw.disabled = S.mode === 'pure';
+    $('.ots-rawctl').classList.toggle('ots-dim', S.mode === 'pure');
+    $('.ots-undo').disabled = !S.undo.length;
+  }
+  function renderBrief() {
+    var sc = S.sc, h = '\u003cdiv class="ots-brief-h">' + icon('info') + '\u003cdiv>\u003cb>' + esc(sc.title) + '\u003c/b>\u003cp>' + esc(sc.text) + '\u003c/p>\u003c/div>\u003c/div>';
+    if (S.mode === 'pure') h += '\u003cp class="ots-note ots-note-warn">' + esc(sc.pureNote || 'Pure PageRank shows each page’s share of 100% on just these pages. Switch to Open web for PR 0 to 10.') + '\u003c/p>';
+    if (sc.actions) {
+      h += '\u003cdiv class="ots-acts">';
+      each(sc.actions, function (a) {
+        var lab = a.label, on = a.id === 'manual' ? !!(node('para') && node('para').flag) : !!S.acts[ a.id ];
+        if (a.id === 'manual' && on) lab = 'Lift the manual action';
+        h += '\u003cbutton type="button" class="ots-btn ots-btn-sm ots-actbtn' + (on ? ' ots-on' : '') + '" data-act="' + a.id + '">' + icon(a.id === 'manual' ? 'shield' : 'link') + esc(lab) + '\u003c/button>';
+      });
+      h += '\u003c/div>';
+      if (sc.id === 'parasite') h += '\u003cp class="ots-note">This button is a demo of a policy decision, not a calculation. It marks the page as demoted in Search and leaves every PR alone.\u003c/p>';
+    }
+    var ch = (sc.chapters || [ ]).map(function (k) { return CHAPTERS[ k ]; }).filter(Boolean);
+    if (ch.length) {
+      h += '\u003cdiv class="ots-chapters">\u003cspan>In the Terminal:\u003c/span>';
+      each(ch, function (c) { h += '\u003ca class="ots-chapter ots-terminal-chapter" href="' + c.url + '">' + esc(c.label) + icon('arrow') + '\u003c/a>'; });
+      h += '\u003c/div>';
+    }
+    $('.ots-brief').innerHTML = h;
+  }
+  function renderPage() {
+    var id = S.sel && node(S.sel) ? S.sel : focusId(), n = node(id), body = $('.ots-pg-body'), sel = $('.ots-psel');
+    var o = '';
+    each(S.nodes, function (x) { o += '\u003coption value="' + esc(x.id) + '"' + (x.id === id ? ' selected' : '') + '>' + esc(x.name) + '\u003c/option>'; });
+    sel.innerHTML = o;
+    if (!n) { body.innerHTML = ''; return; }
+    var sw = $('.ots-swatch'); sw.style.borderColor = colorOf(n); sw.style.color = colorOf(n);
+    var res = S.res, open = res.mode === 'open', v = res.score[ id ], L = res.L[ id ], per = L ? S.d * v / L : 0;
+    var parts = open ? rawF(res.base[ id ]) + ' base + \u003cb>' + rawF(res.ext[ id ]) + '\u003c/b> from its starting PR + \u003cb>' + rawF(res.visible[ id ]) + '\u003c/b> from drawn links'
+      : shareF(res.base[ id ]) + ' random jump + ' + shareF(res.redistributed[ id ]) + ' shared back (pages with no links out and unpassed nofollow shares) + \u003cb>' + shareF(res.visible[ id ]) + '\u003c/b> from drawn links';
+    var inc = ENGINE.contributors(res, id), li = '';
+    each(inc, function (c) {
+      var cls = c.e.rel === 'nofollow' ? ' class="ots-io-nf"' : '';
+      li += '\u003cli' + cls + '>\u003cspan>from ' + esc(nameOf(c.from)) + '\u003c/span>\u003cspan>' + (c.e.rel === 'nofollow' ? 'nofollow, 0' : '+' + num(c.amount)) + '\u003c/span>\u003c/li>';
+    });
+    var fp = n.traits.concat(S.edges.filter(function (e) { return e.s === id && e.tag; }).map(function (e) { return e.tag; })).filter(function (t, i, arr) { return arr.indexOf(t) === i; });
+    var h = '\u003cdiv class="ots-sec">\u003cdiv class="ots-sec-h">\u003ci class="ots-tag-calc">Calculated\u003c/i>by the model\u003c/div>' +
+      '\u003cdiv class="ots-kv">\u003cdiv>\u003csmall>' + (open ? 'PR (0 to 10)' : 'Share of 100%') + '\u003c/small>\u003cb>' + (open ? prOf(res, v).toFixed(1) : shareF(v)) + '\u003c/b>\u003c/div>\u003cdiv>\u003csmall>Position within this graph\u003c/small>\u003cb>' + posText(S.pos, id, S.nodes.length) + '\u003c/b>\u003c/div>\u003c/div>' +
+      '\u003cp class="ots-breakdown">' + (open ? 'Raw score ' : '') + num(v) + ' = ' + parts + '.\u003c/p>' +
+      (inc.length ? '\u003cul class="ots-io">' + li + '\u003c/ul>' : '\u003cp class="ots-breakdown">No drawn links point here yet.\u003c/p>') +
+      '\u003cp class="ots-breakdown" style="margin-top:8px">Links out: ' + linksPhrase(res, id) + '. ' + (L ? 'Each followed link passes \u003cb>' + num(per) + '\u003c/b>' + (open ? ' raw' : '') + ' (' + S.d.toFixed(2) + ' × ' + num(v) + ' ÷ ' + L + ').' : 'With no links out, its whole score goes into the random jump.') + '\u003c/p>' +
+      (fp.length || n.flag ? '\u003cdiv class="ots-badges" style="margin-top:8px">' + fp.map(function (t) { return '\u003cspan class="ots-badge">' + esc(fpLabel(t)) + '\u003c/span>'; }).join('') + (n.flag ? '\u003cspan class="ots-badge">Demoted in Search (manual action demo)\u003c/span>' : '') + '\u003c/div>' : '') +
+      '\u003c/div>';
+    var dis = open ? '' : ' disabled';
+    h += '\u003cdiv class="ots-sec">\u003cdiv class="ots-sec-h">\u003ci class="ots-tag-assume">Settings\u003c/i>you can edit\u003c/div>\u003cdiv class="ots-fields">' +
+      '\u003clabel class="ots-field">Page name\u003cinput class="ots-input ots-pg-name" type="text" maxlength="40" value="' + esc(n.name) + '">\u003c/label>' +
+      '\u003cdiv class="ots-fields-2">\u003clabel class="ots-field">Starting PR (0 to 10)\u003cinput class="ots-input ots-assume ots-pg-pr" type="number" min="0" max="10" step="0.5" inputmode="decimal" value="' + n.pr + '"' + dis + '>\u003c/label>' +
+      '\u003clabel class="ots-field">Links to pages not drawn\u003cinput class="ots-input ots-assume ots-pg-off" type="number" min="0" step="1" inputmode="numeric" value="' + n.off + '"' + dis + '>\u003c/label>\u003c/div>' +
+      '\u003csmall style="color:#8a9bb5;font-size:12px;line-height:1.45">' + (open ? 'Starting PR is what this page gets from backlinks that aren’t drawn: big sites start high. Links to pages not drawn count toward how many ways its score is split.' : 'These two are only used in Open web mode.') + '\u003c/small>' +
+      '\u003c/div>\u003c/div>';
+    body.innerHTML = h;
+  }
+  function renderRank() {
+    var ids = S.nodes.map(function (n) { return n.id; }).sort(function (a, b) { return S.res.score[ b ] - S.res.score[ a ]; });
+    var mx = S.res.score[ ids[ 0 ] ] || 1, h = '', sel = S.sel || focusId(), open = S.mode === 'open';
+    each(ids, function (id) {
+      var n = node(id), v = S.res.score[ id ], frac = open ? prOf(S.res, v) / 10 : v / mx;
+      h += '\u003cbutton type="button" class="ots-rkbtn' + (id === sel ? ' ots-on' : '') + '" data-id="' + esc(id) + '">\u003cspan class="ots-rk">' + (tied(S.pos, id) ? '=' : '') + S.pos[ id ] + '\u003c/span>\u003cspan class="ots-rn">\u003ci style="background:' + colorOf(n) + '">\u003c/i>\u003cspan>' + esc(n.name) + '\u003c/span>\u003c/span>\u003cspan class="ots-rb">\u003ci style="width:' + clamp(frac * 100, 2, 100).toFixed(1) + '%;background:' + colorOf(n) + '">\u003c/i>\u003c/span>\u003cspan class="ots-rv">' + (open ? 'PR ' + prOf(S.res, v).toFixed(1) : shareF(v)) + '\u003c/span>\u003c/button>';
+    });
+    $('.ots-rank-list').innerHTML = h;
+    $('.ots-rank-foot').textContent = open ? 'PR on the 0 to 10 scale. Each point is 6 times the raw score of the one below it, so PR 8 carries about 1,300 times the raw score of PR 4. Bars run from PR 0 to 10.' : 'Pure PageRank: each page’s share of 100%. These ' + S.nodes.length + ' shares add up to ' + (S.res.total * 100).toFixed(1) + '%.';
+  }
+  function renderKb() {
+    var f = $('.ots-kfrom'), t = $('.ots-kto'), fv = f.value, tv = t.value, o = '';
+    each(S.nodes, function (n) { o += '\u003coption value="' + esc(n.id) + '">' + esc(n.name) + '\u003c/option>'; });
+    f.innerHTML = o; t.innerHTML = o;
+    var g = guide();
+    f.value = node(fv) ? fv : (g ? g.s : S.nodes[ 0 ].id);
+    t.value = node(tv) ? tv : (g ? g.t : focusId());
+  }
+  function renderAll() {
+    renderStatus(); syncScenario(); renderBrief(); renderPage(); renderRank(); renderKb(); hint(); redraw();
+  }
+  function deltaEm(r) {
+    var sg = deltaSign(r);
+    if (sg === 0) return '\u003cem class="ots-flat">no change\u003c/em>';
+    if (Math.abs(sg) === 2) return '\u003cem class="ots-flat">' + (sg > 0 ? 'tiny gain' : 'tiny drop') + '\u003c/em>';
+    return '\u003cem class="' + (sg > 0 ? '' : 'ots-down') + '">' + deltaText(r) + '\u003c/em>';
+  }
+  function numBox(label, r) {
+    var b, open = S.mode === 'open';
+    if (r.before == null) b = '\u003cspan class="ots-to">' + val(r.after) + '\u003c/span>';
+    else if (r.unitsChanged) b = val(r.before, r.res0) + ' \u003cspan class="ots-arrow">→\u003c/span> \u003cspan class="ots-to">' + val(r.after) + '\u003c/span> \u003cem class="ots-flat">new units\u003c/em>';
+    else b = val(r.before, r.res0) + ' \u003cspan class="ots-arrow">→\u003c/span> \u003cspan class="ots-to">' + val(r.after).replace('PR ', '') + '\u003c/span> ' + deltaEm(r);
+    var sub = open && !r.unitsChanged ? '\u003csmall style="margin:6px 0 0">raw ' + (r.before != null ? rawF(r.before) + ' → ' : '') + rawF(r.after) + '\u003c/small>' : '';
+    return '\u003cdiv class="ots-r-num">\u003csmall>' + esc(label) + '\u003c/small>\u003cb>' + b + '\u003c/b>' + sub + '\u003c/div>';
+  }
+  function renderResult(r) {
+    var h = '\u003cp class="ots-r-title">' + esc(r.title) + '\u003c/p>';
+    h += '\u003cdiv class="ots-r-nums">' + numBox(r.fname + (S.mode === 'pure' ? ' share' : ' PageRank'), r) +
+      '\u003cdiv class="ots-r-num">\u003csmall>Position within this graph\u003c/small>\u003cb>' + (r.p0 && r.p0 !== r.p1 ? esc(r.p0) + ' \u003cspan class="ots-arrow">→\u003c/span> \u003cspan class="ots-to">' + esc(r.p1) + '\u003c/span>' : '\u003cspan class="ots-to">' + esc(r.p1) + '\u003c/span>' + (r.p0 ? ' \u003cem class="ots-flat">same\u003c/em>' : '')) + '\u003c/b>\u003c/div>\u003c/div>';
+    h += '\u003cdiv class="ots-r-why">' + r.why.map(function (w) { return '\u003cp>' + w + '\u003c/p>'; }).join('') + (r.list.length ? '\u003cul class="ots-r-list">' + r.list.map(function (x) { return '\u003cli>\u003ci>\u003c/i>\u003cspan>' + x + '\u003c/span>\u003c/li>'; }).join('') + '\u003c/ul>' : '') + '\u003c/div>';
+    var st = nextStep();
+    if (st) h += '\u003cdiv class="ots-next">\u003cdiv>\u003csmall>NEXT EXPERIMENT\u003c/small>\u003cb>' + esc(st.title) + '\u003c/b>\u003cspan>' + esc(st.text || '') + '\u003c/span>\u003c/div>\u003cbutton type="button" class="ots-btn ots-btn-go ots-btn-sm ots-try">' + icon('play') + 'Try it\u003c/button>\u003c/div>';
+    $('.ots-r-body').innerHTML = h;
+    var chip = $('.ots-chip');
+    if (r.before != null && !r.unitsChanged) {
+      var sg = deltaSign(r);
+      chip.innerHTML = '\u003cspan>' + esc(r.fname) + ' ' + val(r.before, r.res0) + ' → ' + val(r.after).replace('PR ', '') + '\u003c/span>' + (sg === 0 || Math.abs(sg) === 2 ? '\u003cem class="ots-down" style="color:#cbd5e1">' + (sg === 0 ? 'no change' : sg > 0 ? 'tiny gain' : 'tiny drop') + '\u003c/em>' : '\u003cem class="' + (sg > 0 ? '' : 'ots-down') + '">' + deltaText(r) + '\u003c/em>');
+    } else chip.innerHTML = '\u003cspan>' + esc(r.title) + '\u003c/span>';
+    chip.classList.remove('ots-hide');
+    chip.setAttribute('aria-label', 'See the full result: ' + r.title);
+  }
+  function renderResultEmpty() {
+    var st = nextStep(), f = focusId();
+    var h = '\u003cdiv class="ots-r-empty">\u003cp>' + (S.sc.id === 'start' ? 'Your first result shows up here: the before and after PR, the position change and the exact math behind it.' : 'Make a change on the graph and the before and after shows up here, with the math behind it.') + ' Right now \u003cb>' + esc(nameOf(f)) + '\u003c/b> is \u003cb>' + val(S.res.score[ f ]) + '\u003c/b>, ' + posText(S.pos, f, S.nodes.length) + ' in this graph.\u003c/p>';
+    if (st) h += '\u003cdiv class="ots-next">\u003cdiv>\u003csmall>' + (S.sc.id === 'start' ? 'FIRST EXPERIMENT' : 'TRY THIS') + '\u003c/small>\u003cb>' + esc(st.title) + '\u003c/b>\u003cspan>' + esc(st.text || '') + '\u003c/span>\u003c/div>\u003cbutton type="button" class="ots-btn ots-btn-go ots-btn-sm ots-try">' + icon('play') + 'Do it for me\u003c/button>\u003c/div>';
+    h += '\u003c/div>';
+    $('.ots-r-body').innerHTML = h;
+    $('.ots-chip').classList.add('ots-hide');
+  }
+  /* ---------- sharing ---------- */
+  function b64e(str) { var bytes = new TextEncoder().encode(str), bin = ''; each(bytes, function (c) { bin += String.fromCharCode(c); }); return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function b64d(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; var bin = atob(s), arr = new Uint8Array(bin.length); for (var i = 0; bin.length > i; i++) arr[ i ] = bin.charCodeAt(i); return new TextDecoder().decode(arr); }
+  function encodeState() {
+    var ix = { }, o = { v: 2, sc: S.sc.id, m: S.mode === 'pure' ? 1 : 0, d: S.d, k: S.raw ? 1 : 0, f: S.sel || '' };
+    o.n = S.nodes.map(function (n, i) { ix[ n.id ] = i; return [ n.id, n.name, n.kind, Math.round(n.x), Math.round(n.y), n.pr, n.off, n.traits.join('.'), n.flag ? 1 : 0 ]; });
+    o.e = S.edges.map(function (e) { return [ ix[ e.s ], ix[ e.t ], e.rel === 'nofollow' ? 1 : 0, e.tag || '' ]; });
+    o.a = Object.keys(S.acts).filter(function (k) { return S.acts[ k ]; });
+    return b64e(JSON.stringify(o));
+  }
+  function decodeState(code) {
+    var o = JSON.parse(b64d(code));
+    if (!o || o.v !== 2 || !SC_BY[ o.sc ]) throw new Error('bad state');
+    var sc = SC_BY[ o.sc ];
+    var nodes = (o.n || [ ]).slice(0, 40).map(function (a) {
+      var k = String(a[ 2 ] || 'page');
+      return { id: String(a[ 0 ]).slice(0, 24), name: String(a[ 1 ] || 'Page').replace(/\s+/g, ' ').slice(0, 40), kind: KINDS[ k ] ? k : 'page', x: clamp(+a[ 3 ] || 0, -500, 1500), y: clamp(+a[ 4 ] || 0, -500, 1200), pr: clamp(+a[ 5 ] || 0, 0, 10), ext: 0, off: clamp(Math.round(+a[ 6 ] || 0), 0, 10000), traits: String(a[ 7 ] || '').split('.').filter(function (t) { return t && /^[\x61-\x7a]{2,8}$/.test(t); }).slice(0, 6), flag: a[ 8 ] ? 'demoted' : '' };
+    });
+    var seen = { }, edges = [ ];
+    each((o.e || [ ]).slice(0, 600), function (a) {
+      var s = nodes[ a[ 0 ] ], t = nodes[ a[ 1 ] ];
+      if (!s || !t || s === t || seen[ s.id + '>' + t.id ]) return;
+      seen[ s.id + '>' + t.id ] = 1;
+      edges.push({ s: s.id, t: t.id, rel: a[ 2 ] ? 'nofollow' : 'follow', disc: '', tag: /^[\x61-\x7a]{0,8}$/.test(String(a[ 3 ] || '')) ? String(a[ 3 ] || '') : '' });
+    });
+    if (!nodes.length) throw new Error('empty');
+    return { sc: sc, nodes: nodes, edges: edges, mode: o.m ? 'pure' : 'open', d: clamp(+o.d || 0.85, 0.5, 0.95), raw: !!o.k, acts: o.a || [ ], sel: o.f };
+  }
+  function shareUrl() { return location.origin + location.pathname + location.search + '#sim=' + encodeState(); }
+  function toast(msg) {
+    var old = document.getElementById('ots-toast');
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    var t = document.createElement('div');
+    t.id = 'ots-toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+    t.style.cssText = 'position:fixed;left:50%;bottom:22px;z-index:99999;transform:translateX(-50%);max-width:calc(100vw - 32px);padding:11px 16px;border:1px solid #24344f;border-radius:11px;background:#0f1a2d;color:#e8eef8;font:500 14px/1.4 Roboto,Helvetica,Arial,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,.45);text-align:center';
+    document.body.appendChild(t);
+    setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 2600);
+  }
+  function share() {
+    var url = shareUrl(), box = $('.ots-r-share');
+    box.innerHTML = '\u003cdiv class="ots-sharebox">\u003clabel class="ots-sr" for="ots-shareurl">Link to this experiment\u003c/label>\u003cinput class="ots-input" id="ots-shareurl" readonly value="' + esc(url) + '">\u003cbutton type="button" class="ots-btn ots-btn-sm ots-copy">' + icon('link') + 'Copy\u003c/button>\u003c/div>';
+    box.classList.remove('ots-hide');
+    var title = 'Link Graph Simulator experiment', text = S.last ? S.last.title : 'My link graph experiment';
+    if (navigator.share && coarse()) {
+      navigator.share({ title: title, text: text, url: url }).then(function () { track('share', { sim_method: 'native' }); }).catch(function () { });
+      return;
+    }
+    copy(url, 'button');
+  }
+  function copy(url, how) {
+    var done = function () { toast('Link copied. It opens this exact experiment.'); track('share', { sim_method: how === 'button' ? 'copy' : how }); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { selectShare(); track('share', { sim_method: 'manual' }); });
+    else { selectShare(); track('share', { sim_method: 'manual' }); }
+  }
+  function selectShare() { var i = $('#ots-shareurl'); if (i) { i.focus(); i.select(); toast('Copy the link from the box below the result.'); } }
+  function restoreFromHash() {
+    var m = /sim=([\w-]+)/.exec(location.hash || '');
+    if (!m) return false;
+    try {
+      var st = decodeState(m[ 1 ]);
+      loadScenario(st.sc.id, { msg: 'Shared experiment loaded' });
+      S.nodes = st.nodes; S.edges = st.edges; S.mode = st.mode; S.d = st.d; S.raw = st.raw;
+      each(st.acts, function (k) { S.acts[ k ] = true; });
+      S.sel = st.sel && node(st.sel) ? st.sel : null;
+      S.fresh = false;
+      compute(); markDone(); fitView(V, V.w, V.h, S.nodes); renderAll();
+      var f = focusId(), b = { res: null, pos: null, n: S.nodes.length };
+      var r = base(f, b, 'Shared experiment loaded', 'shared');
+      r.why.push('Someone shared this setup with you: same pages, links, model and settings. Change anything you like, or press Reset to start the scenario fresh.');
+      S.last = r; renderResult(r);
+      track('share_open');
+      setTimeout(function () { var app = $('.ots-app'); if (app && app.scrollIntoView) app.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' }); }, 300);
+      return true;
+    } catch (x) { status('That shared link could not be read, so the first experiment loaded instead'); return false; }
+  }
+  /* ---------- image export ---------- */
+  function wrapText(c, text, maxW) {
+    var words = text.split(' '), lines = [ ], cur = '';
+    each(words, function (w) { var t = cur ? cur + ' ' + w : w; if (c.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+  function plain(html) { var d = document.createElement('div'); d.innerHTML = html; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function saveImage() {
+    var W = 1200, GH = 640, H = 96 + GH + 200, c = document.createElement('canvas'), dpr = 2;
+    c.width = W * dpr; c.height = H * dpr;
+    var x = c.getContext('2d');
+    x.scale(dpr, dpr);
+    x.fillStyle = '#0a1220'; x.fillRect(0, 0, W, H);
+    x.fillStyle = 'rgba(148,163,184,.13)';
+    for (var gx = 12; W > gx; gx += 24) for (var gy = 108; 96 + GH > gy; gy += 24) { x.beginPath(); x.arc(gx, gy, 1, 0, 6.2832); x.fill(); }
+    x.fillStyle = '#0f1a2d'; x.fillRect(0, 0, W, 96); x.fillStyle = '#1e2c46'; x.fillRect(0, 95, W, 1);
+    x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+    x.font = '600 28px ' + FONT; x.fillStyle = '#f1f5fb'; x.fillText('Link Graph Simulator', 32, 46);
+    x.font = '400 16px ' + FONT; x.fillStyle = '#8a9bb5';
+    x.fillText(S.sc.name + '  |  ' + (S.mode === 'pure' ? 'Pure PageRank' : 'Open web illustration') + '  |  d = ' + S.d.toFixed(2) + '  |  ' + S.nodes.length + ' pages', 32, 74);
+    x.textAlign = 'right'; x.fillStyle = '#7cc4ff'; x.font = '500 16px ' + FONT; x.fillText('optimizationtheory.com', W - 32, 46);
+    x.fillStyle = '#4ade80'; x.font = '500 13px ' + FONT; x.fillText('ILLUSTRATIVE MODEL', W - 32, 72);
+    var v = fitView({ }, W, GH, S.nodes);
+    x.save(); x.translate(0, 96);
+    var keepSel = S.sel, keepHover = S.hover; S.hover = null;
+    renderGraph(x, v, { time: 0, anim: false, guide: null, noShadow: false });
+    S.sel = keepSel; S.hover = keepHover;
+    x.restore();
+    var y0 = 96 + GH;
+    x.fillStyle = '#0f1a2d'; x.fillRect(0, y0, W, 200); x.fillStyle = '#1e2c46'; x.fillRect(0, y0, W, 1);
+    var gr = x.createLinearGradient(0, 0, W, 0); gr.addColorStop(0, '#fde047'); gr.addColorStop(0.4, '#f6a465'); gr.addColorStop(0.7, '#f472b6'); gr.addColorStop(1, '#8b7cf6');
+    x.fillStyle = gr; x.fillRect(0, y0, W, 3);
+    x.textAlign = 'left';
+    var r = S.last, f = focusId();
+    x.font = '700 21px Roboto, Helvetica, Arial, sans-serif'; x.fillStyle = '#ffffff';
+    x.fillText(r ? r.title : 'Current graph', 32, y0 + 42);
+    x.font = '600 19px ' + FONT;
+    var line = r && r.before != null && !r.unitsChanged ? r.fname + '   ' + val(r.before, r.res0) + '  →  ' + val(r.after).replace('PR ', '') + '   (' + deltaText(r) + ')' : nameOf(f) + '   ' + val(S.res.score[ f ]);
+    x.fillStyle = '#fde047'; x.fillText(line, 32, y0 + 76);
+    x.font = '400 15px ' + FONT; x.fillStyle = '#8fd3f4';
+    x.fillText('Position within this graph: ' + (r && r.p0 && r.p0 !== r.p1 ? r.p0 + ' → ' + r.p1 : posText(S.pos, f, S.nodes.length)), 32, y0 + 102);
+    x.font = '400 15px Roboto, Helvetica, Arial, sans-serif'; x.fillStyle = '#cfdaea';
+    var why = r && r.why.length ? plain(r.why[ 0 ]) : 'Page names and numbers are illustrative inputs.';
+    each(wrapText(x, why, W - 64).slice(0, 2), function (l, i) { x.fillText(l, 32, y0 + 132 + i * 21); });
+    x.font = '400 12.5px ' + FONT; x.fillStyle = '#64748b';
+    x.fillText('Illustrative teaching model, not Google’s data. Try it: optimizationtheory.com/pagerank-simulator-see-how-link-juice-flows-interactive/', 32, y0 + 184);
+    c.toBlob(function (blob) {
+      if (!blob) { toast('Your browser could not create the image.'); return; }
+      var a = document.createElement('a'), u = URL.createObjectURL(blob);
+      a.href = u; a.download = 'link-graph-experiment-' + S.sc.id + '.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
+      toast('Image saved');
+      track('export_image');
+    }, 'image/png');
+  }
+  /* ---------- scrolling ---------- */
+  function ensureStageVisible(force) {
+    var st = $('.ots-stage');
+    if (!st) return;
+    var r = st.getBoundingClientRect(), vh = window.innerHeight || 800;
+    if (force || 0 > r.top + 10 || r.bottom > vh + 10) {
+      var y = window.pageYOffset + r.top - 76;
+      try { window.scrollTo({ top: y, behavior: reduced() ? 'auto' : 'smooth' }); } catch (x) { window.scrollTo(0, y); }
+    }
+  }
+  /* ---------- popover help ---------- */
+  function popover(html) {
+    var old = $('.ots-pop');
+    if (old) { old.parentNode.removeChild(old); if (old.getAttribute('data-k') === html.slice(0, 20)) return; }
+    var d = document.createElement('div');
+    d.className = 'ots-pop'; d.setAttribute('role', 'dialog'); d.setAttribute('data-k', html.slice(0, 20));
+    d.innerHTML = html + '\u003cbutton type="button" class="ots-btn ots-btn-sm ots-popx">' + icon('x') + 'Close\u003c/button>';
+    wrap.appendChild(d);
+    var b = d.querySelector('.ots-popx'); if (b) b.focus();
+  }
+  var HELP_MODE = '\u003cb>Two ways to run the math\u003c/b>\u003cp>\u003cb>Open web\u003c/b> treats each page as part of the whole web. Every page has a starting PR from backlinks you haven\u2019t drawn (big sites start high), drawn links add to it, and scores show as PR from 0 to 10. Each PR point is 6 times the raw score of the one below it.\u003c/p>\u003cp>\u003cb>Pure PageRank\u003c/b> is the textbook formula on just the pages drawn. Every page gets the same random-jump share, links split the rest, and scores are shares that add up to 100%. There\u2019s no PR 0 to 10 in this view, because a handful of pages can\u2019t add up to a PR 8 site.\u003c/p>\u003cp>\u003ca href="#ots-math" class="ots-mathlink">Full formulas and assumptions\u003c/a>\u003c/p>';
+  var HELP_SC = '\u003cb>Scenarios\u003c/b>\u003cp>\u003cb>Learn the basics:\u003c/b> First experiment, Playground, Natural web, Sandbox.\u003c/p>\u003cp>\u003cb>One lesson:\u003c/b> Followed vs. nofollow links.\u003c/p>\u003cp>\u003cb>Link schemes:\u003c/b> PBN, Link farm, Link wheel and Parasite page. Each one shows how the scheme lifts YOUR PAGE past a competitor that earned its links.\u003c/p>\u003cp>Every page name and number is an example you can change.\u003c/p>';
+  /* ---------- events ---------- */
+  root.addEventListener('click', function (ev) {
+    var t = ev.target.closest ? ev.target.closest('button, a') : null;
+    if (!t || !root.contains(t)) return;
+    var cl = t.classList;
+    if (cl.contains('ots-scbtn')) { loadScenario(t.getAttribute('data-sc'), { user: true, scroll: true }); return; }
+    if (cl.contains('ots-tool')) { launched('tool'); setTool(t.getAttribute('data-tool')); return; }
+    if (cl.contains('ots-addpage')) { launched('tool'); addNode(); return; }
+    if (cl.contains('ots-pausebtn')) { setPaused(!S.paused); track('pause', { sim_paused: S.paused ? 1 : 0 }); return; }
+    if (cl.contains('ots-fit')) { fit(); status('View fitted to the graph'); return; }
+    if (cl.contains('ots-undo')) { undo(); return; }
+    if (cl.contains('ots-reset')) { loadScenario(S.sc.id, { msg: 'Reset: ' + S.sc.name }); track('reset'); return; }
+    if (cl.contains('ots-try')) { launched('next'); runStep(nextStep()); return; }
+    if (cl.contains('ots-actbtn')) { launched('tool'); runAction(t.getAttribute('data-act')); return; }
+    if (cl.contains('ots-share')) { launched('share'); share(); return; }
+    if (cl.contains('ots-copy')) { copy($('#ots-shareurl').value, 'copy'); return; }
+    if (cl.contains('ots-saveimg')) { saveImage(); return; }
+    if (cl.contains('ots-chip')) { var rc = $('.ots-result'); if (rc && rc.scrollIntoView) rc.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); return; }
+    if (cl.contains('ots-rkbtn')) { select(t.getAttribute('data-id')); return; }
+    if (cl.contains('ots-kadd')) { kbAdd(); return; }
+    if (cl.contains('ots-kdel')) { kbDel(); return; }
+    if (cl.contains('ots-modehelp')) { popover(HELP_MODE); return; }
+    if (cl.contains('ots-scenhelp')) { popover(HELP_SC); return; }
+    if (cl.contains('ots-popx')) { var pp = $('.ots-pop'); if (pp) pp.parentNode.removeChild(pp); return; }
+    if (cl.contains('ots-mode') || t.getAttribute('data-mode')) { launched('mode'); setMode(t.getAttribute('data-mode')); return; }
+    if (cl.contains('ots-start')) {
+      ev.preventDefault();
+      if (S.sc.id !== 'start' || !S.fresh) loadScenario('start', { user: true });
+      track('cta_start');
+      var app = $('.ots-app'); if (app && app.scrollIntoView) app.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+      setTimeout(function () { try { cvs.focus({ preventScroll: true }); } catch (x) { } }, 400);
+      return;
+    }
+    if (cl.contains('ots-mathlink')) { var md = $('#ots-math'); if (md) { md.open = true; md.classList.add('ots-open'); } var pq = $('.ots-pop'); if (pq) pq.parentNode.removeChild(pq); return; }
+    if (cl.contains('ots-terminal-cta')) { track('terminal_click', { sim_link: t.href }); return; }
+    if (cl.contains('ots-terminal-chapter')) { track('terminal_chapter_click', { sim_link: t.href }); return; }
+    if (cl.contains('ots-audit-cta')) { track('audit_click', { sim_link: t.href }); return; }
+  });
+  root.addEventListener('change', function (ev) {
+    var t = ev.target, cl = t.classList;
+    if (cl.contains('ots-msel')) { loadScenario(t.value, { user: true, scroll: true }); return; }
+    if (cl.contains('ots-psel')) { select(t.value); return; }
+    if (cl.contains('ots-damp')) { launched('damping'); setDamp(parseFloat(t.value)); return; }
+    if (cl.contains('ots-rawsw')) { S.raw = t.checked; renderAll(); if (S.last) renderResult(S.last); status(S.raw ? 'Showing raw scores next to PR' : 'Showing PR only'); track('raw', { sim_on: S.raw ? 1 : 0 }); return; }
+    var pid = S.sel && node(S.sel) ? S.sel : focusId();
+    if (cl.contains('ots-pg-name')) { editNode(pid, 'name', t.value); return; }
+    if (cl.contains('ots-pg-pr')) { editNode(pid, 'pr', t.value); return; }
+    if (cl.contains('ots-pg-off')) { editNode(pid, 'off', t.value); return; }
+  });
+  root.addEventListener('input', function (ev) {
+    var t = ev.target;
+    if (t.classList.contains('ots-damp')) { $('.ots-damp-v').textContent = parseFloat(t.value).toFixed(2); t.style.setProperty('--p', ((parseFloat(t.value) - 0.5) / 0.45 * 100) + '%'); }
+  });
+  root.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.tagName === 'DETAILS') d.classList.toggle('ots-open', d.open); }, true);
+  function kbMsg(m) { $('.ots-kb-msg').textContent = m; }
+  function kbAdd() {
+    var s = $('.ots-kfrom').value, t = $('.ots-kto').value, rel = $('.ots-krel').value;
+    launched('keyboard');
+    if (s === t) { kbMsg('Pick two different pages.'); return; }
+    var ex = edge(s, t);
+    if (ex && ex.rel === rel) { kbMsg('That link already exists.'); return; }
+    if (ex) setRel(s, t, rel); else addLink(s, t, rel);
+    kbMsg((ex ? 'Changed: ' : 'Added: ') + nameOf(s) + ' → ' + nameOf(t) + (rel === 'nofollow' ? ' (nofollow)' : '') + '. ' + (S.last && S.last.before != null ? S.last.fname + ' ' + val(S.last.before, S.last.res0) + ' → ' + val(S.last.after).replace('PR ', '') + '.' : ''));
+  }
+  function kbDel() {
+    var s = $('.ots-kfrom').value, t = $('.ots-kto').value;
+    if (!edge(s, t)) { kbMsg('There’s no link from ' + nameOf(s) + ' to ' + nameOf(t) + '.'); return; }
+    removeLink(s, t);
+    kbMsg('Removed: ' + nameOf(s) + ' → ' + nameOf(t) + '. ' + (S.last && S.last.before != null ? S.last.fname + ' ' + val(S.last.before, S.last.res0) + ' → ' + val(S.last.after).replace('PR ', '') + '.' : ''));
+  }
+  cvs.addEventListener('keydown', function (ev) {
+    var k = ev.key;
+    if (k === ' ' || k === 'Spacebar') { ev.preventDefault(); setPaused(!S.paused); return; }
+    if (k === 'f' || k === 'F') { fit(); return; }
+    if (k === 'Escape') { S.pending = null; hint(); status('Cancelled'); redraw(); return; }
+    if ((k === 'z' || k === 'Z') && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); undo(); return; }
+    if ((k === 'Delete' || k === 'Backspace') && S.sel) { ev.preventDefault(); removeNode(S.sel); }
+  });
+  root.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') { var p = $('.ots-pop'); if (p) { p.parentNode.removeChild(p); } }
+  });
+  if (mqReduce && mqReduce.addEventListener) mqReduce.addEventListener('change', function () { if (reduced()) setPaused(true); });
+  document.addEventListener('visibilitychange', function () { redraw(); });
+  window.addEventListener('hashchange', function () { if (/sim=/.test(location.hash)) restoreFromHash(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      each(es, function (e) {
+        S.visible = e.isIntersecting;
+        if (e.isIntersecting && e.intersectionRatio >= 0.3 && !S.viewed) { S.viewed = true; track('view'); }
+      });
+      redraw();
+    }, { threshold: [ 0, 0.3 ] }).observe(wrap);
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(function () { resize(); }).observe(wrap);
+  else window.addEventListener('resize', resize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { draw(); });
+  /* ---------- start ---------- */
+  renderScenarioButtons();
+  setPaused(S.paused);
+  var r0 = wrap.getBoundingClientRect(); V.w = Math.max(200, Math.round(r0.width)); V.h = Math.max(200, Math.round(r0.height));
+  if (!restoreFromHash()) loadScenario('start');
+  resize();
+  window.OTSIM = { pos: function (id) { var n = node(id); return n ? w2s(n.x, n.y) : null; }, state: S, engine: ENGINE, load: loadScenario, addLink: addLink, removeLink: removeLink, setRel: setRel, setMode: setMode, encode: encodeState, share: shareUrl };
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script></div></div>
+<!-- /wp:html -->
+
+</main>
+</body>
+</html>
